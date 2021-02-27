@@ -4,11 +4,11 @@
 	<select id="searchUserByID" resultType="ie.ul.cs4227.Bass.Entity.User" parameterType="ie.ul.cs4227.Bass.Entity.User">
 		SELECT * FROM HRUser where uId=#{uId};
 	</select>
-	<select id="insertUser" resultType="java.lang.Boolean"
+	<insert id="insertUser" 
 		parameterType="ie.ul.cs4227.Bass.Entity.User">
 		insert into HRUser
 		values(null,#{uName},#{uPassword},#{uIcon},#{uPhoneNumber},#{uEmail},#{uBirthday},#{uAge},#{uGender},#{uDescription},#{uLocation},default,0,true,#{uType})
-	</select>
+	</insert>
 
 
 	<update id="updateUser"

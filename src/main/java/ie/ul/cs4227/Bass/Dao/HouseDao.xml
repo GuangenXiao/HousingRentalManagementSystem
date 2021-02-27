@@ -9,8 +9,23 @@
 		or hDescription like CONCAT('%',#{info},'%') 
 		<if test="type!=null">type=#{type} </if>
 	</select>
+	<select id="findHTypes" resultType="ie.ul.cs4227.Bass.Entity.HouseType">
+		SELECT *  FROM  HRType
+	</select>
 
 
+	<insert id="insertHouse" 
+		parameterType="ie.ul.cs4227.Bass.Entity.House">
+		insert into hrhouse 
+		values(null,#{OwnerId},#{hPicture},#{hAddress},#{hType},#{hSize},#{hDate},#{hEnergy},#{hEquipment},#{hPark},#{hDescription},default);
+	</insert>
+	
+	<select id="searchHouseByID" resultType="ie.ul.cs4227.Bass.Entity.House">
+		SELECT *  FROM hrhouse where hId=#{hId}
+	</select>
+	<delete id=" deleteHouse" parameterType="Integer">
+	delete from hrhouse where hId =#{houseId}
+	</delete>
 </mapper>
 
 
