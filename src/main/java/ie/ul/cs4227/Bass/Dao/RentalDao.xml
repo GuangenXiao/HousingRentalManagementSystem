@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ie.ul.cs4227.Bass.Dao.HouseDao">
+<mapper namespace="ie.ul.cs4227.Bass.Dao.RentalDao">
 
 	<insert id="insertRental"
 		parameterType="ie.ul.cs4227.Bass.Entity.Rental">
@@ -15,12 +15,12 @@
 
 
 	<update id="updateRental"
-		parameterType="ie.ul.cs4227.Bass.Entity.Integer">
+		parameterType="Integer">
 		update hrrental set rdeal=now() where rId=#{rentalID}
 	</update>
 
 	<delete id="deteleRental"
-		parameterType="ie.ul.cs4227.Bass.Entity.Integer">
+		parameterType="Integer">
 		delete from hrrental where rId=#{rentalID}
 	</delete>
 
