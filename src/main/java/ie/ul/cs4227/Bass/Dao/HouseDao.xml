@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ie.ul.cs4227.Bass.Dao.HouseDao">
+
+	<select id="findHouses" resultType="ie.ul.cs4227.Bass.Entity.House" parameterType="map">
+		SELECT *  FROM  hrhouse where hId like CONCAT('%',#{info},'%') 
+		or hEquipment like CONCAT('%',#{info},'%') 
+		or hAddress like CONCAT('%',#{info},'%') 
+		or hDescription like CONCAT('%',#{info},'%') 
+		<if test="type!=null">type=#{type} </if>
+	</select>
+
+
+</mapper>
+
+
+<!--
+	public  abstract ArrayList<House> findHouses(@Param(value="info")String info,@Param(value="type")Integer Type) throws Exception ;
+	public  abstract ArrayList<HouseType> findHTypes() throws Exception;
+	public  abstract Boolean insertHouse(House h) throws Exception;
+	public  abstract House searchHouseByID(House h) throws Exception;
+	public  abstract Boolean deleteHouse(Integer houseId)throws Exception; -->

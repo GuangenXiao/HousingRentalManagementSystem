@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ie.ul.cs4227.Bass.Dao.UserDao">
+	<select id="searchUserByID" resultType="ie.ul.cs4227.Bass.Entity.User" parameterType="ie.ul.cs4227.Bass.Entity.User">
+		SELECT * FROM HRUser where uId=#{uId};
+	</select>
+	<select id="insertUser" resultType="java.lang.Boolean"
+		parameterType="ie.ul.cs4227.Bass.Entity.User">
+		insert into HRUser
+		values(null,#{uName},#{uPassword},#{uIcon},#{uPhoneNumber},#{uEmail},#{uBirthday},#{uAge},#{uGender},#{uDescription},#{uLocation},default,0,true,#{uType})
+	</select>
+
+
+	<update id="updateUser"
+		parameterType="ie.ul.cs4227.Bass.Entity.User">
+		update HRUser
+		<trim prefix="set" suffixOverrides=",">
+			<if test="uName!=null">uName=#{uName},</if>
+			<if test="uPassword!=null">uPassword=#{uPassword},</if>
+			<if test="uEmail!=null">uEmail=#{uEmail},</if>
+			<if test="uPhoneNumber!=null">uPhoneNumber=#{uPhoneNumber},</if>
+			<if test="uMoney!=null">uMoney=#{uMoney},</if>
+			<if test="uType!=null">uType=#{uType},</if>
+			<if test="uVerification!=null">uVerification=#{uVerification},</if>
+			<if test="uState!=null">uState=#{uState},</if>
+			<if test="uDescription!=null">uDescription=#{uDescription},</if>
+			<if test="uLocation!=null">uLocation=#{uLocation},</if>
+		</trim>
+		where uId=#{uId}
+	</update>
+	
+	<delete id="deleteUser"
+		parameterType="ie.ul.cs4227.Bass.Entity.User">
+		delete from HRUser where uId=#{uId}
+	</delete>
+	<select id="findUsers"
+		resultType="ie.ul.cs4227.Bass.Entity.User" parameterType="map">
+		SELECT *  FROM hrdb.hruser 		
+		<trim prefix="set" suffixOverrides=",">
+			<if test="info!=null">
+			     where (uId LIKE CONCAT('%',#{info},'%') 
+			    or uName LIKE CONCAT('%',#{info},'%') 
+				or uEmail LIKE CONCAT('%',#{info},'%') 
+				or uPhoneNumber LIKE CONCAT('%',#{info},'%') 
+				or uLocation LIKE CONCAT('%',#{info},'%') 
+				or uDescription LIKE CONCAT('%',#{info},'%') </if>
+			<if test=" type!=null">AND uType=#{uType}</if>
+		</trim>
+	</select>
+	<select id="searchUserByName"
+		resultType="ie.ul.cs4227.Bass.Entity.User"
+		parameterType="ie.ul.cs4227.Bass.Entity.User">
+		SELECT *  FROM HRUser where uName=#{uName}
+	</select>
+</mapper>
