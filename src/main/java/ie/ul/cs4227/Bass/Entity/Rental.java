@@ -118,7 +118,7 @@ public class Rental {
 			this.rPrice=rPrice;
 			return this;
 		}
-		public Builder tTime(Date rStart)
+		public Builder rStart(Date rStart)
 		{
 			this.rStart =rStart;
 			return this;
