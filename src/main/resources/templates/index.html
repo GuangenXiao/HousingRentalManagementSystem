@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
+<script src="JS/d3.js"></script>
+</head>
+<body>
+<div class="jumbotron" style=" width: 80%; margin: auto;margin-top: 50px;">
+  <font color="red" size="4" th:text="${msg}"></font>
+
+  <h1  th:if="${u} != null" class="display-3">Welcome to lark Online</h1>
+<h1 class="display-3" th:if="${u} != null"  th:text="Welcome,${u.uName}"></h1>
+
+  <p class="lead">Simple but not simple style, to provide you with a better experience.</p>
+  <hr class="my-4">
+  <p>If you want to know more about larks, please click the button below!</p>
+  <p class="lead">
+
+    <a th:if="${u} == null" class="btn btn-primary btn-lg" href="/login.jsp" role="button">Learn more</a>
+  	<a th:if="${u} != null" class="btn btn-primary btn-lg" href="/searchlist.jsp" role="button">Search house</a>
+
+  	</p>
+</div>
+
+
+</body>
+</html>

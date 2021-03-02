@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
+<script src="JS/d3.js"></script>
+
+<title>Nav</title>
+</head>
+<body>
+<% 
+HttpSession httpSession = request.getSession();
+User u =(User)httpSession.getAttribute("user");
+boolean owner=false ,user=false ,admin=false;
+if(u!=null)
+{
+	if(u.getuType().equals("admin"))admin=true;
+	if(u.getuType().equals("owner"))owner=true;
+	if(u.getuType().equals("user"))user=true;
+}
+%>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <a style="margin-left: 20px;" class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        
+        <c:if test="<%=u!=null%>">
+        <c:if test="<%=owner%>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/house.jsp">New House</a>
+        </li>
+        </c:if>
+        </c:if>
+        <c:if test="<%=u!=null%>">
+        <c:if test="<%=owner%>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/ApplyBox.jsp">Apply Box</a>
+        </li>
+        </c:if>
+        </c:if>
+        <c:if test="<%=u!=null %>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/view.jsp">Office</a>
+        </li>
+        </c:if>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/searchlist.jsp">House</a>
+        </li>
+        <c:if test="<%=u!=null%>">
+        <c:if test="<%=admin%>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/searchUsers.jsp">Users</a>
+        </li>
+        </c:if>
+        </c:if>
+        <c:if test="<%=u==null %>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+        </li>
+        </c:if>
+        <c:if test="<%=u!=null %>">
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
+        </li>
+        </c:if>
+      </ul>
+       <c:if test="<%=u!=null %>">        
+         <p   style="margin-right:50px;color:black;font-size:25px;">Welcome,<%=u.getuName() %></p>
+        </c:if>
+      <form action="${pageContext.request.contextPath }/SearchHouseServlet" method="post" style="margin-right: 20px;" class="form-inline my-2 my-lg-0">
+        <input name="HouseTypeSelect" hidden class="form-control mr-sm-2" type="text" placeholder="Search" value="0---general">
+        <input name="HouseInfo" class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form> 
+    </div>
+  </nav>
+</body>
+</html>
