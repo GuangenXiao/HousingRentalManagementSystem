@@ -6,7 +6,7 @@
 	</select>
 	<insert id="insertUser" 
 		parameterType="ie.ul.cs4227.Bass.Entity.User">
-		insert into HRUser
+		insert into hruser
 		values(null,#{uName},#{uPassword},#{uIcon},#{uPhoneNumber},#{uEmail},#{uBirthday},#{uAge},#{uGender},#{uDescription},#{uLocation},default,0,true,#{uType})
 	</insert>
 

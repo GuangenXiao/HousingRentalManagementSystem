@@ -1,6 +1,7 @@
 package ie.ul.cs4227.Bass.Controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -115,9 +116,118 @@ public class UserControllor {
 		return mv;
 	}
 ///LogoutServlet
-
-///RegisterServlet
+	@GetMapping("/Register")
+	public ModelAndView userRegister(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Register");
+		String msg =null;
+		  if(request.getAttribute("msg")!=null)
+		  {
+		  	msg=request.getAttribute("msg").toString();
+		  }
+		mv.addObject("msg",msg);
+		return mv;
+	}
+    @PostMapping("/Register")
+    public ModelAndView userRegisterPost( @RequestParam(value="userName",required = false) String userName,
+    		   //@RequestParam(value="newPicture",required = false) String newPicture,
+    	       @RequestParam(value="userphonenumber",required = false) String userphonenumber,
+    	       @RequestParam(value="userBirthday",required = false) String userBirthday,
+    	       @RequestParam(value="userEmail",required = false) String userEmail,
+    	       @RequestParam(value="userPassword",required = false) String userPassword,
+    	       @RequestParam(value="userDescription",required = false) String userDescription,
+    	       @RequestParam(value="userLocation",required = false) String userLocation,
+    	       @RequestParam(value="Gender",required = false) String Gender,
+    	       @RequestParam(value="userType",required = false) String userType,
+    	       HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	            ModelAndView mv = new ModelAndView();
+    				StringBuffer msg = new StringBuffer();
+    				User user=new User();	
+    				user.setuName(userName);
+    				user.setuPhoneNumber(userphonenumber);	
+    				user.setuPassword(userPassword);					
+    				user.setuLocation(userLocation);					
+    				user.setuDescription(userDescription);
+    				
+    				AbstractFactory validatorFactory = FactoryProducer.getFactory("Validator");
+    			    Validator GenderV = validatorFactory. getValidator("getGender");
+    				Boolean GenderResult=GenderV.verifi(Gender);
+    				user.setuGender(GenderResult);				
+    				
+    				user.setuEmail(userEmail);	
+    				/* This method can be a new tool to the abstract factory*/
+       				user.setuType(userType);
+       				
+       				AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
+    			    Converter dateCon = ConverterFactory.getConverter("DATE");
+    				Date userBirth=dateCon.convertString(userBirthday);
+    				user.setuBirthday(userBirth);
+    				
+    				Integer age =0;
+    				 try {
+    					    AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+    	    			    Tools AgeT=ToolFactory.getTools("Age");
+    			            age = AgeT.getAge(userBirth); 
+    			            if(age<18) {
+    			            	msg.append("your age is under 18!");
+    			            	mv.addObject("msg", msg.toString());
+    							mv.setViewName("Register");
+    							return mv;
+    			            }
+    			            user.setuAge(age);
+    			            
+    			        } catch (Exception e) {
+    			            e.printStackTrace();
+    			        }
+    				if(user.getuName()==null||user.getuPhoneNumber()==null||user.getuBirthday()==null||user.getuEmail()==null||user.getuPassword()==null||user.getuDescription()==null||user.getuLocation()==null||user.getuAge()==null) {
+    					msg.append("The required information is incomplete!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				if(user.getuName().length()<8||user.getuName().length()>16) {
+    					msg.append("User name with illegal length!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				Validator NumberV = validatorFactory. getValidator("isNumber");
+    				if(!NumberV.verifi(user.getuPhoneNumber())) {
+    					msg.append("phoneNumber must be a number!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				if(!user.getuEmail().matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*"))
+    				{
+    					msg.append("Illegal email format!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				User result=ius.registerNewUser(user);
+    				if(result!=null) {
+    					msg.append("You have successfully created an account");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						
+    					Cookie cookie = new Cookie("autologin",result.getuId()+"-"+result.getuPassword());
+    				    
+    					cookie.setMaxAge(24*60*60);
+    					cookie.setPath("/HRsys");
+    					response.addCookie(cookie);
+    					//response.sendRedirect("/HRsys/login.jsp?newUser="+true);
+    					return mv;
+    				}
+    				else
+    				{
+    					msg.append("An error has occurred");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    			} 
 
 ///SearchUserServlet
-
 }
