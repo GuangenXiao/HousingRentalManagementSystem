@@ -18,6 +18,7 @@ public class VisitorControllor {
 		//User u =(User)httpSession.getAttribute("user");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("index");
+		
 		//mv.addObject("u",u);
 		
 		

@@ -8,20 +8,9 @@
 <title>Nav</title>
 </head>
 <body>
-<% 
-HttpSession httpSession = request.getSession();
-User u =(User)httpSession.getAttribute("user");
-boolean owner=false ,user=false ,admin=false;
-if(u!=null)
-{
-	if(u.getuType().equals("admin"))admin=true;
-	if(u.getuType().equals("owner"))owner=true;
-	if(u.getuType().equals("user"))user=true;
-}
-%>
-
+<footer th:fragment="bar">
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-    <a style="margin-left: 20px;" class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Navbar</a>
+    <a style="margin-left: 20px;" class="navbar-brand" href="/index">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,55 +18,40 @@ if(u!=null)
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home
+          <a class="nav-link" href="/index">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
         
-        <c:if test="<%=u!=null%>">
-        <c:if test="<%=owner%>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/house.jsp">New House</a>
+
+        <li class="nav-item"  th:if="${session.u!= null&&session.u.uType== 'owner'}" >
+          <a class="nav-link" href="/house">New House</a>
         </li>
-        </c:if>
-        </c:if>
-        <c:if test="<%=u!=null%>">
-        <c:if test="<%=owner%>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/ApplyBox.jsp">Apply Box</a>
+        <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'owner'}">
+          <a class="nav-link" href="/ApplyBox">Apply Box</a>
         </li>
-        </c:if>
-        </c:if>
-        <c:if test="<%=u!=null %>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/view.jsp">Office</a>
+        <li class="nav-item" th:if="${session.u!= null}">
+          <a class="nav-link" href="/view">Office</a>
         </li>
-        </c:if>
         
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/searchlist.jsp">House</a>
+          <a class="nav-link" href="/searchlist">House</a>
         </li>
-        <c:if test="<%=u!=null%>">
-        <c:if test="<%=admin%>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/searchUsers.jsp">Users</a>
+
+        <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'admin'}">
+          <a class="nav-link" href="/searchUsers">Users</a>
         </li>
-        </c:if>
-        </c:if>
-        <c:if test="<%=u==null %>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+        <li class="nav-item" th:if="${session.u== null}">
+          <a class="nav-link" href="/login">Login</a>
         </li>
-        </c:if>
-        <c:if test="<%=u!=null %>">
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
+
+        <li class="nav-item" th:if="${session.u!= null}">
+          <a class="nav-link" href="/LogoutServlet">Logout</a>
         </li>
-        </c:if>
       </ul>
-       <c:if test="<%=u!=null %>">        
-         <p   style="margin-right:50px;color:black;font-size:25px;">Welcome,<%=u.getuName() %></p>
-        </c:if>
+
+         <p  style="margin-right:50px;color:black;font-size:25px;" th:if="${session.u!= null}" th:text="'Welcome,'+${session.u.uName}">Welcome</p>
+
       <form action="${pageContext.request.contextPath }/SearchHouseServlet" method="post" style="margin-right: 20px;" class="form-inline my-2 my-lg-0">
         <input name="HouseTypeSelect" hidden class="form-control mr-sm-2" type="text" placeholder="Search" value="0---general">
         <input name="HouseInfo" class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -85,5 +59,6 @@ if(u!=null)
       </form> 
     </div>
   </nav>
+  </footer>
 </body>
 </html>
