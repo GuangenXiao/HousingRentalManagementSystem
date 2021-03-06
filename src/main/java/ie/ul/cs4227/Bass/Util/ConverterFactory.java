@@ -1,19 +1,23 @@
 package ie.ul.cs4227.Bass.Util;
 
-public class ConverterFactory {
-
-	public ConverterFactory() {
-		// TODO Auto-generated constructor stub
-	}
-	public Converter getConverter(String shapeType){
-	      if(shapeType == null){
+public class ConverterFactory extends AbstractFactory {
+	@Override
+	public Converter getConverter(String ConverterType){
+	      if(ConverterType == null){
 	         return null;
 	      }        
-	      if(shapeType.equalsIgnoreCase("DATE")){
+	      if(ConverterType.equalsIgnoreCase("DATE")){
 	         return new DateConverter();
-	      } else if(shapeType.equalsIgnoreCase("TIME")){
+	      } else if(ConverterType.equalsIgnoreCase("TIME")){
 	         return new Timeconverter();
 	      }
 	      return null;
 	   }
+	public Validator getValidator(String input) {
+		return null;
+	}
+	@Override
+	public Tools getTools(String input) {
+		return null;
+	}
 }
