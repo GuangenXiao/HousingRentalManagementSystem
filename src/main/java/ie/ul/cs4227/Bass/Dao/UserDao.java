@@ -15,7 +15,7 @@ import ie.ul.cs4227.Bass.Entity.User;
 public interface UserDao {
 	
 	public abstract User searchUserByID(User u)  throws Exception;
-	public abstract Boolean insertUser(User u)  throws Exception;
+	public abstract Integer insertUser(User u)  throws Exception;
 	public abstract Integer updateUser(User u)  throws Exception;
 	public abstract Integer deleteUser(User u)  throws Exception;
 	public abstract ArrayList<User> findUsers(@Param(value="info")String info,@Param(value="type")String type) throws Exception;

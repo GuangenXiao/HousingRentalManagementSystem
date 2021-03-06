@@ -70,11 +70,12 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Boolean insertUser(User u) {
+	public Integer insertUser(User u) {
 
-		Boolean r = null;
+		Integer r = null;
 		try {
 			r = ud.insertUser(u);
+			System.out.println(r);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -82,23 +83,30 @@ public class UserService implements IUserService {
 	}
 
 	public User registerNewUser(User u) {
-		Boolean b = insertUser(u);
-		if (b == false)
+		Integer b = 0;
+		try {
+			b = ud.insertUser(u);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (b == 0)
 			return null;
 		else {
 			User result = fineUserByName(u);
 			return result;
 		}
 	}
-	/*
-	 * @Override public User fineUserByName(User u) { User uResult=null; try {
-	 * uResult= ud.searchUserByName(u); } catch (Exception e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } return uResult; }
-	 */
 
 	@Override
 	public User fineUserByName(User u) {
-		// TODO Auto-generated method stub
-		return null;
+		User uResult = null;
+		try {
+			uResult = ud.searchUserByName(u);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return uResult;
 	}
+
 }
