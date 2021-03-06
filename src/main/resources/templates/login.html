@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Material Admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <link rel="stylesheet" href="CSS/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="CSS/style.default.css" />
+  </head>
+
+  <body>
+  <div th:include="~{Navbars::bar}"></div>
+  
+    <div class="page login-page">
+      <div class="container d-flex align-items-center">
+        <div class="form-holder has-shadow">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="info d-flex align-items-center">
+                <div class="content">
+                  <div class="logo">
+                    <h1>Welcome</h1>
+                  </div>
+                  <p>RHS</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 bg-white">
+              <div class="form d-flex align-items-center">
+                <div class="content">
+                  <form method="post"  class="form-validate" id="loginFrom" action="/Login">
+                    <div class="form-group">
+                      <input id="login-username" type="text" name="userName" required data-msg="Username" th:text="${userid}" placeholder="Username" class="input-material">
+                    </div>
+                    <div class="form-group">
+                      <input id="login-password" type="password" name="passWord" required data-msg="Password" th:text="${password}" placeholder="Password" class="input-material">
+                    </div>
+                    <table cellpadding="0" cellspacing="0" align="center">
+    <tr>
+    <td>
+    RememberMe:&nbsp;&nbsp;
+    </td>
+          <td >
+          <input type="radio"  name="autologin"  th:value="${60*60*24*31*6}"/>
+                   halfYear&nbsp;
+      </td>
+            <td >
+          <input type="radio" name="autologin"  th:value="${60*60*24*31*3 }"/>
+                   ThreeMonth&nbsp;
+      </td>
+            <td >
+          <input type="radio"  name="autologin"  th:value="${60*60*24*31*1 }"/>
+                    OneMonth&nbsp;
+      </td>
+      </tr>
+      </table>
+                    
+                    <button id="login" type="submit" class="btn btn-primary">Log in</button>
+
+                  </form>
+                    <p th:text="${msg}"></p>
+                  <br />
+                  <small>No Account?</small><a href="/Register" class="signup">&nbsp;Register</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

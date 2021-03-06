@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,31 +28,34 @@ public class UserControllor {
 	@Resource
 	IUserService ius = new UserService();
 
-	@PostMapping("/LoginServlet")
-	public ModelAndView userLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		response.setContentType("text/html;charset=utf-8");
-		String userId = request.getParameter("userName");
-		String password = request.getParameter("passWord");
+	@PostMapping("/Login")
+	public ModelAndView userLogin(HttpServletRequest request, 
+			HttpServletResponse response,
+			@RequestParam(value="userName",required = true) String userId,
+			@RequestParam(value="passWord",required = true) String password,
+			@RequestParam(value="autologin",required = true)String time
+			) throws Exception {
+		System.out.println("1111");
+	    ModelAndView mv = new ModelAndView();
 		StringBuffer msg = new StringBuffer();
 		if (userId == null || password == null) {
 			msg.append("user Id or password can't be empty");
-			request.setAttribute("msg", msg.toString());
-			toLogin(request, response);
+			mv.setViewName("login");
+			mv.addObject("msg", msg.toString());
 			return null;
 		}
 		if (userId.length() <= 0 || password.length() <= 0) {
 			msg.append("user Id or password can't be empty");
-			request.setAttribute("msg", msg.toString());
-			toLogin(request, response);
+			mv.setViewName("login");
+			mv.addObject("msg", msg.toString());
 			return null;
 		}
 		AbstractFactory af = FactoryProducer.getFactory("Validator");
 		Validator isNumber = af.getValidator("isNumber");
 		if (!isNumber.verifi(userId)) {
 			msg.append("user Id should be number");
-			request.setAttribute("msg", msg.toString());
-			toLogin(request, response);
+			mv.setViewName("login");
+			mv.addObject("msg", msg.toString());
 			return null;
 		}
 		User u = new User.Builder().uId(Integer.parseInt(userId)).uPassword(password).Build();
@@ -60,8 +64,8 @@ public class UserControllor {
 		if (uResult == null) {
 			msg.append("No Suitable User");
 			System.out.println("No Suitable User");
-			request.setAttribute("msg", msg.toString());
-			toLogin(request, response);
+			mv.setViewName("login");
+			mv.addObject("msg", msg.toString());
 			return null;
 
 		} else {
@@ -69,21 +73,20 @@ public class UserControllor {
 			if (!u.getuPassword().equals(uResult.getuPassword())) {
 				msg.append("Incorrect password");
 				System.out.println("Incorrect password");
-				request.setAttribute("msg", msg.toString());
-				toLogin(request, response);
+				mv.setViewName("login");
+				mv.addObject("msg", msg.toString());
 				return null;
 			}
 			if (uResult.getuStatus() == false) {
 				msg.append("Baned");
 				System.out.println("banded");
-				request.setAttribute("msg", msg.toString());
-				toLogin(request, response);
+				mv.setViewName("login");
+				mv.addObject("msg", msg.toString());
 				return null;
 			}
 			msg.append(":" + uResult.getuName());
-			String time = request.getParameter("autologin");
 			HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("user", uResult);
+			httpSession.setAttribute("u", uResult);
 			if (time != null) {
 				Cookie cookie = new Cookie("autologin", uResult.getuId() + "-" + uResult.getuPassword());
 				cookie.setMaxAge(Integer.parseInt(time));
@@ -92,29 +95,24 @@ public class UserControllor {
 			}
 			System.out.println("login Successfully");
 			request.setAttribute("msg", msg.toString());
-			toIndex(request, response);
+			mv.setViewName("index");
+			mv.addObject("msg", msg.toString());
+			return mv;
 		}
-
-		return null;
 
 	}
+	@GetMapping("/Login")
+	public ModelAndView LoginPage(HttpServletRequest request, 
+			HttpServletResponse response) throws IOException {
 
-	protected void toLogin(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	protected void toIndex(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("login");
+		/*
+		 * String msg="You have successfully created an account"; String
+		 * s="<script   language=javascript>alert('Resgister Successfully, Your Id is "
+		 * +1+" ');</script>"; response.getWriter().write(s);
+		 */
+		return mv;
 	}
 ///LogoutServlet
 
