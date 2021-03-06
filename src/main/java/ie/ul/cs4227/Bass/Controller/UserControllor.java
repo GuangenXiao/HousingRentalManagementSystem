@@ -149,7 +149,7 @@ public class UserControllor {
     				user.setuPassword(userPassword);					
     				user.setuLocation(userLocation);					
     				user.setuDescription(userDescription);
-    				
+    				user.setuIcon("icon.jpg");
     				AbstractFactory validatorFactory = FactoryProducer.getFactory("Validator");
     			    Validator GenderV = validatorFactory. getValidator("getGender");
     				Boolean GenderResult=GenderV.verifi(Gender);

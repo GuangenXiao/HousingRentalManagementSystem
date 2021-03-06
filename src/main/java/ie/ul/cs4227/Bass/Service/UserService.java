@@ -87,7 +87,6 @@ public class UserService implements IUserService {
 			return null;
 		else {
 			User result = fineUserByName(u);
-			System.out.println(result.getuId() + result.getuName());
 			return result;
 		}
 	}
