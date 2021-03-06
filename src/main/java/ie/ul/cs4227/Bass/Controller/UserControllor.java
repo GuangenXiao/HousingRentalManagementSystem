@@ -28,7 +28,7 @@ public class UserControllor {
 	IUserService ius = new UserService();
 
 	@PostMapping("/LoginServlet")
-	public ModelAndView userLogin(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView userLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		response.setContentType("text/html;charset=utf-8");
 		String userId = request.getParameter("userName");
@@ -46,7 +46,9 @@ public class UserControllor {
 			toLogin(request, response);
 			return null;
 		}
-		if (!Validator.isNumber(userId)) {
+		AbstractFactory af = FactoryProducer.getFactory("Validator");
+		Validator isNumber = af.getValidator("isNumber");
+		if (!isNumber.verifi(userId)) {
 			msg.append("user Id should be number");
 			request.setAttribute("msg", msg.toString());
 			toLogin(request, response);

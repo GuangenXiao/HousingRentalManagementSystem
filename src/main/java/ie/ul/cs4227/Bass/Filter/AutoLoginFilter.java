@@ -67,10 +67,23 @@ public class AutoLoginFilter implements Filter {
 				chain.doFilter(req, response);
 				return;
 			}
-			if(!Validator.isNumber(userId))
-			{
-				chain.doFilter(req, response);
-				return;
+			AbstractFactory af = FactoryProducer.getFactory("Validator");
+			Validator isNumber = null;
+			try {
+				isNumber = af.getValidator("isNumber");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				if(!isNumber.verifi(userId))
+				{
+					chain.doFilter(req, response);
+					return;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			req.setAttribute("userid", userId);
 			req.setAttribute("password", password);
