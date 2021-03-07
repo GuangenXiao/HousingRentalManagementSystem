@@ -35,7 +35,7 @@ public class UserControllor {
 			HttpServletResponse response,
 			@RequestParam(value="userName",required = true) String userId,
 			@RequestParam(value="passWord",required = true) String password,
-			@RequestParam(value="autologin",required = true)String time
+			@RequestParam(value="autologin",required = false)String time
 			) throws Exception {
 		System.out.println("1111");
 	    ModelAndView mv = new ModelAndView();
