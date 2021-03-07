@@ -116,6 +116,17 @@ public class UserControllor {
 		return mv;
 	}
 ///LogoutServlet
+	
+
+	@GetMapping("/Logout")
+	public ModelAndView Logout(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/index");
+		request.getSession().removeAttribute("user");
+		return mv;
+	}
+	
+///Register
 	@GetMapping("/Register")
 	public ModelAndView userRegister(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
