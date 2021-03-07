@@ -123,7 +123,7 @@ public class UserControllor {
 	public ModelAndView Logout(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/index");
-		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("u");
 		return mv;
 	}
 	
