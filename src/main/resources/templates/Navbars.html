@@ -36,7 +36,7 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link" href="/searchlist">House</a>
+          <a class="nav-link" href="/SearchHouse">House</a>
         </li>
 
         <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'admin'}">
@@ -53,7 +53,7 @@
 
          <p  style="margin-right:50px;color:black;font-size:25px;" th:if="${session.u!= null}" th:text="'Welcome,'+${session.u.uName}">Welcome</p>
 
-      <form action="${pageContext.request.contextPath }/SearchHouseServlet" method="post" style="margin-right: 20px;" class="form-inline my-2 my-lg-0">
+      <form action="/SearchHouse" method="post" style="margin-right: 20px;" class="form-inline my-2 my-lg-0">
         <input name="HouseTypeSelect" hidden class="form-control mr-sm-2" type="text" placeholder="Search" value="0---general">
         <input name="HouseInfo" class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>

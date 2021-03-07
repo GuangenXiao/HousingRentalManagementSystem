@@ -3,11 +3,11 @@
 <mapper namespace="ie.ul.cs4227.Bass.Dao.HouseDao">
 
 	<select id="findHouses" resultType="ie.ul.cs4227.Bass.Entity.House" parameterType="map">
-		SELECT *  FROM  hrhouse where hId like CONCAT('%',#{info},'%') 
+		SELECT *  FROM  hrhouse where( hId like CONCAT('%',#{info},'%') 
 		or hEquipment like CONCAT('%',#{info},'%') 
 		or hAddress like CONCAT('%',#{info},'%') 
-		or hDescription like CONCAT('%',#{info},'%') 
-		<if test="type!=null">type=#{type} </if>
+		or hDescription like CONCAT('%',#{info},'%') )
+		<if test="type!=null">and hType=#{type} </if>
 	</select>
 	<select id="findHTypes" resultType="ie.ul.cs4227.Bass.Entity.HouseType">
 		SELECT *  FROM  HRType
