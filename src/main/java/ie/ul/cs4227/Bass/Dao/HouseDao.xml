@@ -17,7 +17,7 @@
 	<insert id="insertHouse" 
 		parameterType="ie.ul.cs4227.Bass.Entity.House">
 		insert into hrhouse 
-		values(null,#{OwnerId},#{hPicture},#{hAddress},#{hType},#{hSize},#{hDate},#{hEnergy},#{hEquipment},#{hPark},#{hDescription},default);
+		values(null,#{hOwnerId},#{hPicture},#{hAddress},#{hType},#{hSize},#{hDate},#{hEnergy},#{hEquipment},#{hPark},#{hDescription},default);
 	</insert>
 	
 	<select id="searchHouseByID" resultType="ie.ul.cs4227.Bass.Entity.House">

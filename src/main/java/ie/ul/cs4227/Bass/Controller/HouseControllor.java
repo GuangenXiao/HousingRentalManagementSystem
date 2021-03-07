@@ -1,6 +1,7 @@
 package ie.ul.cs4227.Bass.Controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ie.ul.cs4227.Bass.Entity.House;
@@ -18,12 +20,15 @@ import ie.ul.cs4227.Bass.Entity.HouseType;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
+import ie.ul.cs4227.Bass.Util.AbstractFactory;
+import ie.ul.cs4227.Bass.Util.Converter;
+import ie.ul.cs4227.Bass.Util.FactoryProducer;
+import ie.ul.cs4227.Bass.Util.Tools;
 
 
 @RestController
 public class HouseControllor {
 ///HouseMangeServlet
-///HouseServlet
 ///SearchHouseServlet
 	@Resource
 	IHouseService ihs = new HouseService();
@@ -39,8 +44,6 @@ public class HouseControllor {
 		mv.addObject("typelist", typelist);
 		return mv;
 	}
-	
-	
 	@PostMapping("/SearchHouse")
 	public ModelAndView searchHouse(HttpServletRequest request, 
 			HttpServletResponse response,
@@ -66,5 +69,76 @@ public class HouseControllor {
 		mv.addObject("houselist", list);
 		mv.setViewName("searchlist");
 		return mv;
+	}
+	///HouseServlet
+	@GetMapping("/NewHouse")
+	public ModelAndView NewHouse(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("NewHouse");
+		String msg =null;
+		  if(request.getAttribute("msg")!=null)
+		  {
+		  	msg=request.getAttribute("msg").toString();
+		  }
+		mv.addObject("msg",msg);
+		return mv;
+	}
+	@PostMapping("/NewHouse")
+	public ModelAndView NewHousePost(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="HouseType",required = false) String HouseType,
+			@RequestParam(value="HouseEnergy",required = false) String HouseEnergy,
+			@RequestParam(value="HouseAddress",required = false) String HouseAddress,
+			@RequestParam(value="HouseParknumber",required = false) String HouseParknumber,
+			@RequestParam(value="HouseBirthday",required = false) String HouseBirthday,
+			@RequestParam(value="houseEquipment",required = false) String houseEquipment,
+			@RequestParam(value="houseDescription",required = false) String houseDescription,
+			@RequestParam(value="Housesize",required = false) String Housesize,
+			@RequestParam(value="Picture of house",required = false) MultipartFile file) throws Exception {
+		    
+		    ModelAndView mv = new ModelAndView();
+			StringBuffer msg = new StringBuffer();
+		    House house = new House();
+		    //set features
+		    house.sethType(Integer.parseInt(HouseType));
+			house.sethEnergy(HouseEnergy);
+			house.sethAddress(HouseAddress);
+		    house.sethPark(Integer.parseInt(HouseParknumber));
+		    house.sethDescription(houseDescription);
+			house.sethEquipment(houseEquipment);
+			house.sethSize(Integer.parseInt(Housesize));
+			
+			AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+		    Tools filetool= ToolFactory.getTools("FileUpLoad");
+			String fileName = file.getOriginalFilename();
+	        String filePath = request.getSession().getServletContext().getRealPath("/Recource/");
+	        try {
+	        	    filetool.uploadfile(file.getBytes(), filePath, fileName);
+	        } catch (Exception e) {
+	        } 
+			house.sethPicture(fileName);
+			
+			AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
+		    Converter dateCon = ConverterFactory.getConverter("DATE");
+			Date HouseBirth=dateCon.convertString(HouseBirthday);
+			house.sethDate(HouseBirth);
+			
+			User user = (User)request.getSession().getAttribute("u");
+	        Integer ID=user.getuId();
+	        house.sethOwnerId(ID);
+	        
+			Boolean result=ihs.insertHouse(house);
+			if(result!=null) {
+				msg.append("You have successfully added a new house");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
+			else
+			{
+				msg.append("An error has occurred");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
 	}
 }
