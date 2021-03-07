@@ -21,7 +21,9 @@ public class ToolFactory extends AbstractFactory{
 	      }        
 	      if(input.equalsIgnoreCase("Age")){
 	         return new AgeTools();
-	      } 
+	      }else if (input.equalsIgnoreCase("FileUpLoad")) {
+	    	 return new FileTools();
+	      }
 		return null;
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ie.ul.cs4227.Bass.Entity.User;
@@ -141,7 +142,7 @@ public class UserControllor {
 	}
     @PostMapping("/Register")
     public ModelAndView userRegisterPost( @RequestParam(value="userName",required = false) String userName,
-    		   //@RequestParam(value="newPicture",required = false) String newPicture,
+    		   @RequestParam(value="newPicture",required = false) MultipartFile file,
     	       @RequestParam(value="userphonenumber",required = false) String userphonenumber,
     	       @RequestParam(value="userBirthday",required = false) String userBirthday,
     	       @RequestParam(value="userEmail",required = false) String userEmail,
@@ -160,7 +161,16 @@ public class UserControllor {
     				user.setuPassword(userPassword);					
     				user.setuLocation(userLocation);					
     				user.setuDescription(userDescription);
-    				user.setuIcon("icon.jpg");
+    				
+    				AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+    			    Tools filetool= ToolFactory.getTools("FileUpLoad");
+    				String fileName = file.getOriginalFilename();
+    		        String filePath = request.getSession().getServletContext().getRealPath("/Recource/");
+    		        try {
+    		        	    filetool.uploadfile(file.getBytes(), filePath, fileName);
+    		        } catch (Exception e) {
+    		        } 
+    				user.setuIcon(fileName);
     				AbstractFactory validatorFactory = FactoryProducer.getFactory("Validator");
     			    Validator GenderV = validatorFactory. getValidator("getGender");
     				Boolean GenderResult=GenderV.verifi(Gender);
@@ -176,10 +186,9 @@ public class UserControllor {
     				user.setuBirthday(userBirth);
     				
     				Integer age =0;
-    				 try {
-    					    AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+    				 try { 					  
     	    			    Tools AgeT=ToolFactory.getTools("Age");
-    			            age = AgeT.getAge(userBirth); 
+    			            age = AgeT.launch(userBirth); 
     			            if(age<18) {
     			            	msg.append("your age is under 18!");
     			            	mv.addObject("msg", msg.toString());
@@ -223,12 +232,12 @@ public class UserControllor {
     					mv.addObject("msg", msg.toString());
 						mv.setViewName("Register");
 						
-    					Cookie cookie = new Cookie("autologin",result.getuId()+"-"+result.getuPassword());
+    					/*Cookie cookie = new Cookie("autologin",result.getuId()+"-"+result.getuPassword());
     				    
     					cookie.setMaxAge(24*60*60);
     					cookie.setPath("/HRsys");
     					response.addCookie(cookie);
-    					//response.sendRedirect("/HRsys/login.jsp?newUser="+true);
+    					response.sendRedirect("/HRsys/login.jsp?newUser="+true);*/
     					return mv;
     				}
     				else
