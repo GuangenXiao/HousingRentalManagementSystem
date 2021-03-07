@@ -12,7 +12,15 @@ public class CommandModify implements Command{
 	}
 	
 	public Boolean  execute(Rental r) {
-		return null;
+		try {
+			Integer result =receiver.updateRental(r);
+			if(result>0)return true;
+			else return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 		
 	}
 }

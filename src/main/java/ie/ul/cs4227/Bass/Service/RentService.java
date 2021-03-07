@@ -25,16 +25,25 @@ public class RentService implements IRentService {
 		
 	}
 	@Override
-	public Boolean insertRent(Rental R) {
-//		Boolean result=null;
-//		  try { result= ren.insertRental(R); }
-//		  catch (Exception e) {
-//		  e.printStackTrace(); }
-		 
+	public Boolean insertRent(Rental R) {		 
 		Command com = new CommandCreate(ren);
 		Invoker invoker = new Invoker(com);
 		return invoker.call(R);
 	}
+	@Override
+	public Boolean dealRental(Integer RentalID) {
+		Command com = new CommandDeal(ren);
+		Invoker invoker = new Invoker(com);
+		return invoker.call(new Rental.Builder().rId(RentalID).Build());
+	}
+	@Override
+	public Boolean deteleRental(Integer RentalID) {
+		Command com = new CommandDelete(ren);
+		Invoker invoker = new Invoker(com);
+		return invoker.call(new Rental.Builder().rId(RentalID).Build());
+	}
+	
+	
 	@Override
 	public ArrayList<Rental> findReantals(Integer Owner) {
 		// TODO Auto-generated method stub
@@ -49,29 +58,5 @@ public class RentService implements IRentService {
 		}
 		 
 		return list;
-	}
-	@Override
-	public Boolean dealRental(Integer RentalID) {
-		// TODO Auto-generated method stub
-		Boolean result=null;
-		 try {
-				//result= ren.updateRental(RentalID);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return result;
-	}
-	@Override
-	public Boolean deteleRental(Integer RentalID) {
-		// TODO Auto-generated method stub
-		Boolean result=null;
-		 try {
-				//result= ren.deteleRental(RentalID);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return result;
 	}
 }

@@ -15,6 +15,20 @@
 
 
 	<update id="updateRental"
+		parameterType="ie.ul.cs4227.Bass.Entity.Rental">
+		update hrrental
+		<trim prefix="set" suffixOverrides=",">
+			<if test="rHId!=null">rHId=#{rHId},</if>
+			<if test="rUId!=null">rUId=#{rUId},</if>
+			<if test="rPrice!=null">rPrice=#{rPrice},</if>
+			<if test="rStart!=null">rStart=#{rStart},</if>
+			<if test="rEnd!=null">rEnd=#{rEnd},</if>
+			<if test="rDeal!=null">rDeal=#{rDeal},</if>
+		</trim>
+		where rId=#{rId}
+	</update>
+
+	<update id="dealRental"
 		parameterType="Integer">
 		update hrrental set rdeal=now() where rId=#{rentalID}
 	</update>

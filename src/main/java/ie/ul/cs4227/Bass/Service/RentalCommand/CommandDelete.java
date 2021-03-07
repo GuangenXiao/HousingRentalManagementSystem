@@ -12,9 +12,15 @@ public class CommandDelete implements Command{
 	}
 	@Override
 	public Boolean  execute(Rental r) {
-		return null;
-		// TODO Auto-generated method stub
-		
+		try {
+			Integer result =receiver.deteleRental(r.getrId());
+			if(result>0)return true;
+			else return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	

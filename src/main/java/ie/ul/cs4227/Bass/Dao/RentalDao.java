@@ -12,6 +12,7 @@ import ie.ul.cs4227.Bass.Entity.Rental;
 public interface RentalDao {
 	public abstract Integer insertRental(Rental R) throws Exception;
 	public abstract ArrayList<Rental> findrentals(Integer owner)throws Exception;
-	public abstract Integer updateRental(Integer rentalID)throws Exception;
+	public abstract Integer dealRental(Integer rentalID)throws Exception;
 	public abstract Integer deteleRental(Integer rentalID)throws Exception;
+	public abstract Integer updateRental(Rental R)throws Exception;
 }

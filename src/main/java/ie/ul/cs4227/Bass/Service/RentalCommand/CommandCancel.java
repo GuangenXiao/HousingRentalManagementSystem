@@ -11,7 +11,15 @@ public class CommandCancel implements Command{
 		this.receiver = receiver;
 	}
 	public Boolean  execute(Rental r) {
-		return null;
+		try {
+			Integer result =receiver.deteleRental(r.getrId());
+			if(result>0)return true;
+			else return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 		
 	}
 	
