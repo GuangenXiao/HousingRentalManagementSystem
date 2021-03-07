@@ -10,9 +10,16 @@ public class CommandCreate implements Command{
 	public CommandCreate(RentalDao receiver) {
 		this.receiver = receiver;
 	}
-	public Boolean  execute(Rental r) {
-		return null;
-		
+	public Boolean execute(Rental r) {
+		try {
+			Integer result =receiver.insertRental(r);
+			if(result>0)return true;
+			else return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

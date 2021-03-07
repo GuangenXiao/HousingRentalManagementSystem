@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ie.ul.cs4227.Bass.Dao.RentalDao;
 import ie.ul.cs4227.Bass.Entity.Rental;
+import ie.ul.cs4227.Bass.Service.RentalCommand.*;
 
 
 
@@ -18,21 +19,21 @@ public class RentService implements IRentService {
 	@Resource
 	RentalDao ren;
 	
+	
 	public RentService() 
 	{
 		
 	}
 	@Override
 	public Boolean insertRent(Rental R) {
-		// TODO Auto-generated method stub
-		Boolean result=null;
-		 try {
-				result= ren.insertRental(R);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return result;
+//		Boolean result=null;
+//		  try { result= ren.insertRental(R); }
+//		  catch (Exception e) {
+//		  e.printStackTrace(); }
+		 
+		Command com = new CommandCreate(ren);
+		Invoker invoker = new Invoker(com);
+		return invoker.call(R);
 	}
 	@Override
 	public ArrayList<Rental> findReantals(Integer Owner) {
@@ -50,11 +51,11 @@ public class RentService implements IRentService {
 		return list;
 	}
 	@Override
-	public Boolean updateRental(Integer RentalID) {
+	public Boolean dealRental(Integer RentalID) {
 		// TODO Auto-generated method stub
 		Boolean result=null;
 		 try {
-				result= ren.updateRental(RentalID);
+				//result= ren.updateRental(RentalID);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -66,7 +67,7 @@ public class RentService implements IRentService {
 		// TODO Auto-generated method stub
 		Boolean result=null;
 		 try {
-				result= ren.deteleRental(RentalID);
+				//result= ren.deteleRental(RentalID);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -9,8 +9,7 @@ public class Invoker {
 	public Invoker(Command requirer) {
 		this.requirer = requirer;
 	}
-    public void call(Rental r){
-        //请求者调用命令对象执行命令的那个execute方法
-        requirer.execute(r);
+    public Boolean call(Rental r){
+        return requirer.execute(r);
     }
 }
