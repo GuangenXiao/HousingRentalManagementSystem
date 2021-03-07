@@ -1,16 +1,20 @@
 package ie.ul.cs4227.Bass.Service.RentalCommand;
 
-public class CommandDelete implements Requirer{
+import ie.ul.cs4227.Bass.Dao.RentalDao;
+import ie.ul.cs4227.Bass.Entity.Rental;
 
-	private Receiver receiver;
+public class CommandDelete implements Command{
+
+	private RentalDao receiver;
 	
-	public CommandDelete(Receiver receiver) {
+	public CommandDelete(RentalDao receiver) {
 		this.receiver = receiver;
 	}
 	@Override
-	public void execute() {
+	public Boolean  execute(Rental r) {
+		return null;
 		// TODO Auto-generated method stub
-		receiver.delete(0);
+		
 	}
 
 	

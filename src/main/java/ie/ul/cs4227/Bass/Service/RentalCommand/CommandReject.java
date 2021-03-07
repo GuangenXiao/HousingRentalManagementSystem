@@ -1,13 +1,17 @@
 package ie.ul.cs4227.Bass.Service.RentalCommand;
 
-public class CommandReject implements Requirer{
+import ie.ul.cs4227.Bass.Dao.RentalDao;
+import ie.ul.cs4227.Bass.Entity.Rental;
 
-	private Receiver receiver;
+public class CommandReject implements Command{
+
+	private RentalDao receiver;
 	
-	public CommandReject(Receiver receiver) {
+	public CommandReject(RentalDao receiver) {
 		this.receiver = receiver;
 	}
-	public void execute() {
-		receiver.reject(0);
+	public Boolean execute(Rental r) {
+		return null;
+		
 	}
 }

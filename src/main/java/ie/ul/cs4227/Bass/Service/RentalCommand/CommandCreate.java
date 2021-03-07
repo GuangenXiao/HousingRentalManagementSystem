@@ -1,14 +1,18 @@
 package ie.ul.cs4227.Bass.Service.RentalCommand;
 
-public class CommandCreate implements Requirer{
+import ie.ul.cs4227.Bass.Dao.RentalDao;
+import ie.ul.cs4227.Bass.Entity.Rental;
 
-	private Receiver receiver;
+public class CommandCreate implements Command{
+
+	private RentalDao receiver;
 	
-	public CommandCreate(Receiver receiver) {
+	public CommandCreate(RentalDao receiver) {
 		this.receiver = receiver;
 	}
-	public void execute() {
-		receiver.create();
+	public Boolean  execute(Rental r) {
+		return null;
+		
 	}
 	
 }
