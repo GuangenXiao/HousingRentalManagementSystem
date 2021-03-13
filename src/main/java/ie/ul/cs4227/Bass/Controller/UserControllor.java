@@ -123,10 +123,10 @@ public class UserControllor {
 			@RequestParam(value="uId",required = true) String uId,
 			@RequestParam(value="uName",required = false)String uName
 			) throws IOException {
-		
-		
 		User user = (User)request.getSession().getAttribute("u");
 		ModelAndView mv= new ModelAndView();
+		
+		
 		if(user==null) {
 			mv.setViewName("index");
 			mv.addObject("msg","Please login");
@@ -137,8 +137,32 @@ public class UserControllor {
 			mv.addObject("msg","illeagal Operation");
 			return mv;
 		}
-		mv.setViewName("index");
-		request.getSession().removeAttribute("u");
+       User Uinfo = new User.Builder().uId(user.getuId()).Build();
+		
+		if(uName.length()>0) {Uinfo.setuName(uName);}
+		
+		if(uPassword.length()>0) {Uinfo.setuPassword(uPassword );}
+		
+		if(uPhoneNumber.length()>0) {Uinfo.setuPhoneNumber(uPhoneNumber);}
+		
+		if(uEmail.length()>0) {Uinfo.setuEmail(uEmail);}
+		
+		if(uDescription.length()>0) {Uinfo.setuDescription(uDescription);}
+		
+		if(uLocation.length()>0) {Uinfo.setuLocation(uLocation);}
+		
+		Integer n= ius.updateUser(Uinfo);
+		
+		if(n>=1) {
+			response.getWriter().write("<script   language=javascript>alert('Modify Successfully');</script>");
+			mv.setViewName("index");
+			request.getSession().removeAttribute("u");
+		}
+		else 
+		{
+			response.getWriter().write("<script   language=javascript>alert('Modify Fail');'</script>");
+			mv.setViewName("index");
+		}
 		return mv;
 	}
 	@GetMapping("/Login")

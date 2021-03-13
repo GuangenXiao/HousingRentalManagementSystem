@@ -22,7 +22,7 @@
 			<if test="uMoney!=null">uMoney=#{uMoney},</if>
 			<if test="uType!=null">uType=#{uType},</if>
 			<if test="uVerification!=null">uVerification=#{uVerification},</if>
-			<if test="uState!=null">uState=#{uState},</if>
+			<if test="uStatus!=null">uStatus=#{uStatus},</if>
 			<if test="uDescription!=null">uDescription=#{uDescription},</if>
 			<if test="uLocation!=null">uLocation=#{uLocation},</if>
 		</trim>
