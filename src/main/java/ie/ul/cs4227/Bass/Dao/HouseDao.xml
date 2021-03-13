@@ -23,7 +23,7 @@
 	<select id="searchHouseByID" resultType="ie.ul.cs4227.Bass.Entity.House">
 		SELECT *  FROM hrhouse where hId=#{hId}
 	</select>
-	<delete id=" deleteHouse" parameterType="Integer">
+	<delete id="deleteHouse" parameterType="Integer">
 	delete from hrhouse where hId =#{houseId}
 	</delete>
 </mapper>

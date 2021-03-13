@@ -1,5 +1,6 @@
 package ie.ul.cs4227.Bass.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +29,7 @@ import ie.ul.cs4227.Bass.Util.Tools;
 
 @RestController
 public class HouseControllor {
-///HouseMangeServlet
+
 ///SearchHouseServlet
 	@Resource
 	IHouseService ihs = new HouseService();
@@ -140,5 +141,53 @@ public class HouseControllor {
 				mv.setViewName("NewHouse");
 				return mv;
 			}
+	}
+	@GetMapping("/HouseManage")
+	public ModelAndView ManageHouse(HttpServletRequest request, HttpServletResponse response,
+		@RequestParam(value="houseId",required = true) String h) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("HouseManage");
+		
+		String houseID=h;
+	    House H= ihs.serachhouseById(houseID);
+		Integer HouseTypecode=H.gethType();
+		String HouseType=null;
+		   if(HouseTypecode==1){
+			   HouseType="apartment";
+		   }else if(HouseTypecode==2){
+			   HouseType="compound apartment";
+		   }else if(HouseTypecode==3){
+			   HouseType="low block";
+		   }else if(HouseTypecode==4){
+			   HouseType="mansion";
+		   }else if(HouseTypecode==5){
+			   HouseType="datcha";
+		   }
+		   mv.addObject("house", H);
+		   mv.addObject("houseTypre",HouseType);
+		return mv;
+	}
+	@PostMapping("/HouseManage")
+	public ModelAndView DeleteHouse(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="houseId",required = true) String h) throws IOException {
+		String houseID=h;
+		ModelAndView mv = new ModelAndView();
+		boolean flag = false;
+		
+		try {
+			flag = ihs.deleteHouse(Integer.parseInt(houseID));
+		}catch (Exception e) {
+			// TODO: handle exception
+		}		
+		if(flag) {
+			response.getWriter().write("<script   language=javascript>alert('Modify Successfully');</script>");
+			mv.setViewName("index");
+			return mv;
+		}
+		else 
+		{
+			response.getWriter().write("<script   language=javascript>alert('Modify Fail');'</script>");
+			return ManageHouse(request, response,h);
+		}
 	}
 }
