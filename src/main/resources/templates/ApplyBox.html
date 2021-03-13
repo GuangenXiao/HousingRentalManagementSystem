@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="CSS/style.default.css" />
+</head>
+<body>
+<div th:include="~{Navbars::bar}"></div>
+<div style="width: 80%;margin-left: auto;margin-right: auto;">
+<table class="table table-hover" >
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">Tenant</th>
+      <th scope="col">Voluntary housing</th>
+      <th scope="col">Proposed amount</th>
+      <th scope="col">Start time</th>
+      <th scope="col">End time</th>
+      <th scope="col">option</th>
+    </tr>
+  </thead>
+<tbody>
+      <tr th:each="rental,rentals:${rentallist}">
+      
+      <td th:text="${rental.rUId}"></td>
+      <td th:text="${rental.rHId}"></td>
+      <td th:text="${rental.rPrice}"></td>
+      <td th:text="${rental.rStart}"></td>
+      <td th:text="${rental.rEnd}"></td>
+      <td>
+        <a  th:href="'/ApplyBoxAccept?rentalId='+${rental.rId}"><button type="button">Accept</button></a>
+        <a  th:href="'/ApplyBoxReject?rentalId='+${rental.rId}"><button type="button">Reject</button></a>
+      </td>
+      </tr>
+  </tbody>
+</table> 
+</div>
+</body>
+</html>

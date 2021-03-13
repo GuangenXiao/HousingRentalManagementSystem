@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ie.ul.cs4227.Bass.Dao.RentalDao;
 import ie.ul.cs4227.Bass.Entity.Rental;
@@ -13,7 +14,7 @@ import ie.ul.cs4227.Bass.Service.RentalCommand.*;
 
 
 
-
+@Service
 public class RentService implements IRentService {
 	@Autowired
 	@Resource
