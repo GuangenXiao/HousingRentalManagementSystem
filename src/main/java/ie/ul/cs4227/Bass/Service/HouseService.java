@@ -81,14 +81,14 @@ public class HouseService implements IHouseService {
 	@Override
 	public Boolean deleteHouse(Integer houseId) {
 		// TODO Auto-generated method stub
-		 Boolean result=null;
+		 Integer result=null;
 		 try {
 			result=hd.deleteHouse(houseId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return result>0?true:false;
 	}
 
 }

@@ -103,10 +103,47 @@ public class UserControllor {
 		}
 
 	}
+	@GetMapping("/view")
+	public ModelAndView ViewPage(HttpServletRequest request, 
+			HttpServletResponse response) throws IOException {
+
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("view");
+		return mv;
+	}
+	@PostMapping("/Modify")
+	public ModelAndView Modify(HttpServletRequest request, 
+			HttpServletResponse response,
+			@RequestParam(value="uLocation",required = false) String uLocation,
+			@RequestParam(value="uDescription",required = false) String uDescription,
+			@RequestParam(value="uEmail",required = false)String uEmail,
+			@RequestParam(value="uPhoneNumber",required = false) String uPhoneNumber,
+			@RequestParam(value="uPassword",required = false)String uPassword,
+			@RequestParam(value="uId",required = true) String uId,
+			@RequestParam(value="uName",required = false)String uName
+			) throws IOException {
+		
+		
+		User user = (User)request.getSession().getAttribute("u");
+		ModelAndView mv= new ModelAndView();
+		if(user==null) {
+			mv.setViewName("index");
+			mv.addObject("msg","Please login");
+			return mv;
+		}
+		if(user.getuId()!=Integer.parseInt(uId)) {
+			mv.setViewName("index");
+			mv.addObject("msg","illeagal Operation");
+			return mv;
+		}
+		mv.setViewName("index");
+		request.getSession().removeAttribute("u");
+		return mv;
+	}
 	@GetMapping("/Login")
 	public ModelAndView LoginPage(HttpServletRequest request, 
 			HttpServletResponse response) throws IOException {
-
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
 		/*
