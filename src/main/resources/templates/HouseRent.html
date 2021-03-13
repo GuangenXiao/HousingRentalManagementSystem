@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta charset="ISO-8859-1">
+<meta name="description" content="rent a house">
+<meta name="keywords" content="HTML,CSS,JavaScript">
+<link rel="stylesheet" type="text/css" href="bootstrap.css" />
+<link rel="stylesheet" href="style.default.css" id="theme-stylesheet">
+<link rel="stylesheet" href="CSS/bootstrap.css" id="view">
+<title>HRsys</title>
+</head>
+<div th:include="~{Navbars::bar}"></div>
+<body>
+<div class="jumbotron" style ="margin-left:10%;width:80%;">
+<div class="card mb-3">
+  <font color="red" size="4" th:text="${msg}" th:if="${msg} != null"></font>
+  <h3 class="card-header">House details</h3>
+  <div class="card-body">
+    <h5 class="card-title">House image</h5>
+  </div>
+  <img th:src="'Recource/'+${house.hPicture}" width="300" height="700"/>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">House Address</font></li>
+    <li class="list-group-item" th:text="${house.hAddress}" th:if="${house.hAddress} != null"></li>
+  </ul>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">House Type</font></li>
+    <li class="list-group-item" th:text="${houseTypre}" th:if="${houseTypre} != null"></li>
+  </ul>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">House Size</font></li>
+    <li class="list-group-item" th:text="${house.hSize}" th:if="${house.hSize} != null"></li>
+  </ul>
+   <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">House abbreviation date</font></li>
+    <li class="list-group-item" th:text="${house.hDate}" th:if="${house.hDate} != null"></li>
+  </ul>
+   <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">House energy consumption level</font></li>
+    <li class="list-group-item" th:text="${house.hEnergy}" th:if="${house.hEnergy} != null"></li>
+  </ul>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">Parking spaces provided</font></li>
+    <li class="list-group-item" th:text="${house.hPark}" th:if="${house.hPark} != null"></li>
+  </ul>
+   <ul class="list-group list-group-flush">
+    <li class="list-group-item"><font color="red" size="4">Introduction to the house</font></li>
+    <li class="list-group-item" th:text="${house.hDescription}" th:if="${house.hDescription} != null"></li>
+  </ul>
+</div>
+<form method="post"class="form-validate" id="rentFrom" action="/HouseRent">
+  <fieldset>
+    <div class="form-group" hidden="hidden">
+      <input hidden="hidden" name = "houseId"  th:value ="${house.hId}" >
+    </div>
+    <div class="form-group">
+      <label for="exampleInputName">Start Date</label>
+      <input type="date" class="form-control" name="StartDate">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputName">End Date</label>
+      <input type="date" class="form-control" name="EndDate">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputName">Amount to be paid (to houseOwner)</label>
+      <input type="text" class="form-control" name="money">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </fieldset>
+</form>
+</div>
+</body>
+</html>
