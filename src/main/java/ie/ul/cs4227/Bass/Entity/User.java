@@ -1,27 +1,35 @@
 package ie.ul.cs4227.Bass.Entity;
+
 import java.util.Date;
+
+import ie.ul.cs4227.Bass.Dao.TopUpDao;
+import ie.ul.cs4227.Bass.Service.TopupStrategy.StrategyFactory;
+import ie.ul.cs4227.Bass.Service.TopupStrategy.TopUpStrategy;
+
 public class User {
-	private Integer  uId ;
-	private String uName ;
-	private String uPassword ;
-	private String uIcon ;
-	private String uPhoneNumber ;
-	private String uEmail ;
-	private Date uBirthday  ;
-	private Integer uAge  ;
-	private Boolean uGender ;
-	private String uDescription ;
-	private String uLocation ;
+	private Integer uId;
+	private String uName;
+	private String uPassword;
+	private String uIcon;
+	private String uPhoneNumber;
+	private String uEmail;
+	private Date uBirthday;
+	private Integer uAge;
+	private Boolean uGender;
+	private String uDescription;
+	private String uLocation;
 	private Date uVerification;
 	private Float uMoney;
-	private Boolean uStatus ;
-	private String uType ;
+	private Boolean uStatus;
+	private String uType;
+
+	private TopUpStrategy topUpStrategy;
+
 	public User() {
 		super();
+		autoTopUpStrategy();
 	}
 
-	
-	
 	public User(Integer uId, String uName, String uPassword, String uIcon, String uPhoneNumber, String uEmail,
 			Date uBirthday, Integer uAge, Boolean uGender, String uDescription, String uLocation, Date uVerification,
 			Float uMoney, Boolean uStatus, String uType) {
@@ -41,9 +49,16 @@ public class User {
 		this.uMoney = uMoney;
 		this.uStatus = uStatus;
 		this.uType = uType;
+		autoTopUpStrategy();
 	}
 
+	public boolean executeStrategy(TopUpDao tud, int amount,String Type) {
+		return topUpStrategy.doOperation(this, tud, amount,Type);
+	}
 
+	public void autoTopUpStrategy() {
+		this.topUpStrategy = StrategyFactory.getStrategy(this);
+	}
 
 	public Integer getuId() {
 		return uId;
@@ -163,115 +178,109 @@ public class User {
 
 	public void setuType(String uType) {
 		this.uType = uType;
+		autoTopUpStrategy();
 	}
 
-	public static class Builder
-	{
-		private Integer  uId=null ;
-		private String uName =null;
-		private String uPassword=null ;
-		private String uIcon =null;
-		private String uPhoneNumber =null;
-		private String uEmail =null;
-		private Date uBirthday =null ;
-		private Integer uAge =null ;
-		private Boolean uGender =null;
-		private String uDescription =null;
-		private String uLocation =null;
-		private Date uVerification=null;
-		private Float uMoney=null;
-		private Boolean uStatus =null;
-		private String uType=null ;
-		public Builder()
-		{
-			
+	public static class Builder {
+		private Integer uId = null;
+		private String uName = null;
+		private String uPassword = null;
+		private String uIcon = null;
+		private String uPhoneNumber = null;
+		private String uEmail = null;
+		private Date uBirthday = null;
+		private Integer uAge = null;
+		private Boolean uGender = null;
+		private String uDescription = null;
+		private String uLocation = null;
+		private Date uVerification = null;
+		private Float uMoney = null;
+		private Boolean uStatus = null;
+		private String uType = null;
+
+		public Builder() {
+
 		}
-		
-		public Builder uVerification(Date uVerification)
-		{
-			this.uVerification  =uVerification ;
+
+		public Builder uVerification(Date uVerification) {
+			this.uVerification = uVerification;
 			return this;
 		}
-		
-		public Builder uType(String  uType)
-		{
-			this.uType =uType;
+
+		public Builder uType(String uType) {
+			this.uType = uType;
 			return this;
 		}
-		public Builder uDescription(String  uDescription)
-		{
-			this.uDescription =uDescription;
+
+		public Builder uDescription(String uDescription) {
+			this.uDescription = uDescription;
 			return this;
 		}
-		
-		public Builder uLocation(String  uLocation)
-		{
+
+		public Builder uLocation(String uLocation) {
 			this.uLocation = uLocation;
 			return this;
 		}
-		
-		public Builder uGender (Boolean uGender )
-		{
-			this.uGender  =uGender ;
+
+		public Builder uGender(Boolean uGender) {
+			this.uGender = uGender;
 			return this;
 		}
-		public Builder uAge(Integer uAge)
-		{
+
+		public Builder uAge(Integer uAge) {
 			this.uAge = uAge;
 			return this;
 		}
-		
-		public Builder uId(Integer uId)
-		{
+
+		public Builder uId(Integer uId) {
 			this.uId = uId;
 			return this;
 		}
-		public Builder uName(String  uName)
-		{
+
+		public Builder uName(String uName) {
 			this.uName = uName;
 			return this;
 		}
-		public Builder uPassword (String uPassword )
-		{
-			this.uPassword  = uPassword ;
+
+		public Builder uPassword(String uPassword) {
+			this.uPassword = uPassword;
 			return this;
 		}
-		public Builder  uBirthday(Date  uBirthday)
-		{
-			this. uBirthday =  uBirthday;
+
+		public Builder uBirthday(Date uBirthday) {
+			this.uBirthday = uBirthday;
 			return this;
 		}
-		public Builder uIcon(String uIcon)
-		{
+
+		public Builder uIcon(String uIcon) {
 			this.uIcon = uIcon;
 			return this;
 		}
-		public Builder uMoney(Float uMoney)
-		{
+
+		public Builder uMoney(Float uMoney) {
 			this.uMoney = uMoney;
 			return this;
 		}
-		public Builder uEmail(String uEmail)
-		{
+
+		public Builder uEmail(String uEmail) {
 			this.uEmail = uEmail;
 			return this;
 		}
-		public Builder uPhoneNumber(String uPhoneNumber)
-		{
+
+		public Builder uPhoneNumber(String uPhoneNumber) {
 			this.uPhoneNumber = uPhoneNumber;
 			return this;
 		}
-		public Builder uStatus(Boolean uStatus)
-		{
-			this.uStatus =uStatus;
+
+		public Builder uStatus(Boolean uStatus) {
+			this.uStatus = uStatus;
 			return this;
 		}
-		public User Build()
-		{
-			return new User(uId, uName, uPassword, uIcon, uPhoneNumber, uEmail,
-				uBirthday,  uAge,  uGender, uDescription,  uLocation, uVerification,
-					 uMoney,  uStatus,uType);
+
+		public User Build() {
+			return new User(uId, uName, uPassword, uIcon, uPhoneNumber, uEmail, uBirthday, uAge, uGender, uDescription,
+					uLocation, uVerification, uMoney, uStatus, uType);
 		}
 	}
-	
+
 }

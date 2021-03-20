@@ -7,19 +7,21 @@ public class Recharge {
 	
 	private Integer tId ;
 	private Integer tUId  ;
+	private Float tMoney;
 	private String tPayType ; 
 	private Date tTime;
+
 	
 	
 	
 	
-	
-	public Recharge(Integer tId, Integer tUId, String tPayType, Date tTime) {
+	public Recharge(Integer tId, Integer tUId, String tPayType, Date tTime,Float tMoney) {
 		super();
 		this.tId = tId;
 		this.tUId = tUId;
 		this.tPayType = tPayType;
 		this.tTime = tTime;
+		this.tMoney=tMoney;
 	}
 	public Integer gettId() {
 		return tId;
@@ -47,11 +49,20 @@ public class Recharge {
 	}
 	
 	
+	public Float gettMoney() {
+		return tMoney;
+	}
+	public void settMoney(Float tMoney) {
+		this.tMoney = tMoney;
+	}
+
+
 	public static class Builder{
 		private Integer tId=null ;
 		private Integer tUId =null ;
 		private String tPayType =null; 
 		private Date tTime=null;
+		private Float tMoney=null;
 		public Builder()
 		{
 			
@@ -59,6 +70,11 @@ public class Recharge {
 		public Builder tId(Integer tId)
 		{
 			this.tId =tId;
+			return this;
+		}
+		public Builder tMoney(Float tMoney)
+		{
+			this.tMoney =tMoney;
 			return this;
 		}
 		public Builder tUId(Integer tUId)
@@ -78,7 +94,7 @@ public class Recharge {
 		}
 		public Recharge Build()
 		{
-			return new Recharge( tId, tUId, tPayType, tTime);
+			return new Recharge( tId, tUId, tPayType, tTime,tMoney);
 		}
 	}
 	

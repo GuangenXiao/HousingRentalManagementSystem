@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ie.ul.cs4227.Bass.Dao.TopUpDao">
+
+	<insert id="topUp"
+		parameterType="ie.ul.cs4227.Bass.Entity.Recharge">
+		insert into HRTopUp values (null,#{tUId},#{tMoney},#{tPayType},default)
+	</insert>
+	<select id="selectTopUpList"
+		resultType="ie.ul.cs4227.Bass.Entity.Recharge" >
+		SELECT * FROM hrdb.hrtopup
+	</select>
+		<select id="selectTopUp"
+		resultType="ie.ul.cs4227.Bass.Entity.Recharge" parameterType="Integer">
+		SELECT * FROM hrdb.hrtopup where tId = #{orderNumber}
+	</select>
+</mapper>

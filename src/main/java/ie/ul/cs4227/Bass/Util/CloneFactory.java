@@ -43,7 +43,7 @@ public class CloneFactory {
 		return result;
 	}
 	private static Recharge cloneRecharge(Recharge r) {
-		Recharge result= new Recharge(r.gettId(), r.gettUId(), r.gettPayType(), r.gettTime());
+		Recharge result= new Recharge(r.gettId(), r.gettUId(), r.gettPayType(), r.gettTime(),r.gettMoney());
 		return result;
 	}
 	private static HouseType cloneHouseType(HouseType h) {
