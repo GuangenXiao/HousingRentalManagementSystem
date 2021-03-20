@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="CSS/style.default.css" />
+<script src="JS/d3.js"></script>
+</head>
+<body>
+
+<div th:include="~{Navbars::bar}"></div>
+
+<form action="/TopUp" method="post" style="width:30%;margin:auto;margin-top:20px;">
+<div class="form-group">
+  <label class="col-form-label" for="inputDefault">Amount</label>
+  <input type="Number" name="Amount" class="form-control" placeholder="0" id="inputDefault">
+</div>
+      <select data-placeholder="Select Payment Type" class="form-control" name="PaymentType">
+      <option >Deposit Card</option>
+      <option >Credit Card</option>
+      <option >PayPal</option>
+      <option >AliPal</option>
+      </select>
+
+ <button type="submit"style="float:right;margin-top:20px;" class="btn btn-primary">Submit</button>
+</form>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ public class TopUpService implements ITopUpService {
 	IUserService ius = new UserService();
 	
 	@Override
-	public Boolean TopUp(User u,Integer amount,String type) {
+	public Boolean TopUp(User u,Float amount,String type) {
 		Boolean topUpResult =false;
 		topUpResult= u.executeStrategy(tud, amount,type);
 		Integer updateResult=0;
@@ -34,7 +34,7 @@ public class TopUpService implements ITopUpService {
 			updateResult= ius.updateUser(tar);
 			if(updateResult>0)System.out.println("Update user info successful");
 		}
-		return updateResult>0?true:false;
+		return updateResult>0;
 	}
 
 	@Override

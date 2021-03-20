@@ -42,6 +42,9 @@
         <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'admin'}">
           <a class="nav-link" href="/SearchUser">Users</a>
         </li>
+         <li class="nav-item" th:if="${session.u!= null}">
+          <a class="nav-link" href="/TopUp">TopUp</a>
+        </li>
         <li class="nav-item" th:if="${session.u== null}">
           <a class="nav-link" href="/Login">Login</a>
         </li>
@@ -50,7 +53,6 @@
           <a class="nav-link" href="/Logout">Logout</a>
         </li>
       </ul>
-
          <p  style="margin-right:50px;color:black;font-size:25px;" th:if="${session.u!= null}" th:text="'Welcome,'+${session.u.uName}">Welcome</p>
 
       <form action="/SearchHouse" method="post" style="margin-right: 20px;" class="form-inline my-2 my-lg-0">

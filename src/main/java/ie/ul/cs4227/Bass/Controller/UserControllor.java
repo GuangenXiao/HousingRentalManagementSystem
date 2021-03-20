@@ -291,6 +291,7 @@ public class UserControllor {
     				User result=ius.registerNewUser(user);
     				if(result!=null) {
     					msg.append("You have successfully created an account");
+    					response.getWriter().write("<script   language=javascript>alert('Register successfully! Your Id is "+result.getuId()+"');'</script>");
     					mv.addObject("msg", msg.toString());
 						mv.setViewName("Register");
 						

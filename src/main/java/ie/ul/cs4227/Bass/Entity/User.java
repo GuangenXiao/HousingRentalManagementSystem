@@ -52,7 +52,7 @@ public class User {
 		autoTopUpStrategy();
 	}
 
-	public boolean executeStrategy(TopUpDao tud, int amount,String Type) {
+	public boolean executeStrategy(TopUpDao tud, Float amount,String Type) {
 		return topUpStrategy.doOperation(this, tud, amount,Type);
 	}
 
