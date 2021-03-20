@@ -40,7 +40,7 @@
         </li>
 
         <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'admin'}">
-          <a class="nav-link" href="/searchUsers">Users</a>
+          <a class="nav-link" href="/SearchUser">Users</a>
         </li>
         <li class="nav-item" th:if="${session.u== null}">
           <a class="nav-link" href="/Login">Login</a>

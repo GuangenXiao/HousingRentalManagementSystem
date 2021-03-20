@@ -53,7 +53,7 @@ public class UserService implements IUserService {
 			list = ud.findUsers(info, type);
 		} catch (Exception e) {
 		}
-
+		System.out.println(list);
 		return list;
 	}
 

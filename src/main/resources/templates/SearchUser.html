@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title> 
+<link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="CSS/style.default.css" />
+<script src="JS/d3.js"></script>
+</head>
+<body>
+
+<div th:include="~{Navbars::bar}"></div>
+
+<form action="/SearchUser" method="post">
+<div  style="width: 80%;margin-left: auto;margin-right: auto;">
+<table class="table table-hover" style="text-align: center;font-size:20px;">
+<tr>
+<td>
+      <label for="exampleSelect2">USER INFO:</label></td>
+      <td>
+      <input type="text" placeholder="inoformation abuout house,such like location"  class="form-control-plaintext" name="UserInfo"/></td>
+      <td>
+      <label for="exampleSelect1">USER TYPE:</label>
+      </td>
+      <td>
+      <select class="form-control" id="exampleSelect1" name="UserTypeSelect">
+      <option >General</option>
+      <option >Normal User</option>
+      <option >Houser Owner</option>
+      <option >Administrator</option>
+      </select>
+      </td>
+      <td>
+    <button type="submit" class="btn btn-primary" >search</button>
+    </td>
+    </tr>
+</table>
+</div>
+</form>
+
+<div style="width: 80%;margin-left: auto;margin-right: auto;">
+<table class="table table-hover" >
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">UserId</th>
+      <th scope="col">UserName</th>
+      <th scope="col">Email</th>
+      <th scope="col">PhoneNumber</th>
+      <th scope="col">Location</th>
+      <th scope="col">Description</th>
+      <th scope="col">User Type</th>
+    </tr>
+  </thead>
+    
+    <tbody>
+      <tr  th:each="ul:${userlist}"  th:if="${ userlist!=null && #lists.size(userlist)>= 0}">
+
+
+      <td th:text="${ul.uId}"></td>
+      <td th:text="${ul.uName}"></td>
+      <td th:text="${ul.uEmail}"></td>
+      <td th:text="${ul.uPhoneNumber}"></td>
+      <td th:text="${ul.uLocation}"></td>
+      <td th:text="${ul.uDescription}"></td>
+      <td th:text="${ul.uType}"></td>
+    </tr>
+  </tbody>
+
+</table> 
+</div>
+
+
+
+</body>
+</html>

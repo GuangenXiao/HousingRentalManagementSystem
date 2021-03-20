@@ -1,6 +1,7 @@
 package ie.ul.cs4227.Bass.Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -311,4 +312,48 @@ public class UserControllor {
     			} 
 
 ///SearchUserServlet
+    @GetMapping("/SearchUser")
+	public ModelAndView searchHousePage(HttpServletRequest request, 
+			HttpServletResponse response
+			) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("SearchUser");
+		return mv;
+	}   
+
+ @PostMapping("/SearchUser")
+    public ModelAndView SearchUser(HttpServletRequest request, 
+			HttpServletResponse response,
+    	    @RequestParam(value="UserInfo",required = true) String info,
+    	    @RequestParam(value="UserTypeSelect",required = true) String type
+    	    ) throws Exception {
+    	
+    	ModelAndView mv = new ModelAndView();
+    	    
+    	    	if(info==null&&type==null)
+    			{
+    				//response.sendRedirect(request.getContextPath()+"/searchUsers.jsp");
+    	    		mv.setViewName("SearchUser");
+    				return mv;
+    			}
+    			if(info.length()<=0&&type.length()<=0)
+    			{
+    				//response.sendRedirect(request.getContextPath()+"/searchUsers.jsp");
+    				mv.setViewName("SearchUser");
+    				return mv;
+    			}
+    			
+    			ArrayList<User> userlist =null;
+    			IUserService ius= new UserService();
+    			
+    		  userlist = ius.findUsers(info,type);
+
+  			  mv.setViewName("SearchUser");
+  			  mv.addObject("userlist", userlist);
+    		  
+    	
+    	return mv;
+    }
+    
 }

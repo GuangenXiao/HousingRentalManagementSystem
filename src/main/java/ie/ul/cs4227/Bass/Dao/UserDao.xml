@@ -44,7 +44,7 @@
 				or uPhoneNumber LIKE CONCAT('%',#{info},'%') 
 				or uLocation LIKE CONCAT('%',#{info},'%') 
 				or uDescription LIKE CONCAT('%',#{info},'%') </if>
-			<if test=" type!=null">AND uType=#{uType}</if>
+			<if test=" type!=null">AND uType=#{type}</if>
 		</trim>
 	</select>
 	<select id="searchUserByName"
