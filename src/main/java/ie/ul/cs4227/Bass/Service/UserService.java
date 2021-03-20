@@ -48,6 +48,7 @@ public class UserService implements IUserService {
 		else
 			type = null;
 
+		System.out.println(info+":"+type);
 		ArrayList<User> list = null;
 		try {
 			list = ud.findUsers(info, type);

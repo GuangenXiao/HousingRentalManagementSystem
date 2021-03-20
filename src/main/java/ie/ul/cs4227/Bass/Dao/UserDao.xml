@@ -35,17 +35,13 @@
 	</delete>
 	<select id="findUsers"
 		resultType="ie.ul.cs4227.Bass.Entity.User" parameterType="map">
-		SELECT *  FROM hrdb.hruser 		
-		<trim prefix="set" suffixOverrides=",">
-			<if test="info!=null">
-			     where (uId LIKE CONCAT('%',#{info},'%') 
+		SELECT *  FROM hrdb.hruser where (uId LIKE CONCAT('%',#{info},'%') 
 			    or uName LIKE CONCAT('%',#{info},'%') 
 				or uEmail LIKE CONCAT('%',#{info},'%') 
 				or uPhoneNumber LIKE CONCAT('%',#{info},'%') 
 				or uLocation LIKE CONCAT('%',#{info},'%') 
-				or uDescription LIKE CONCAT('%',#{info},'%') </if>
-			<if test=" type!=null">AND uType=#{type}</if>
-		</trim>
+				or uDescription LIKE CONCAT('%',#{info},'%'))
+			<if test="type!=null">and uType=#{type}</if>
 	</select>
 	<select id="searchUserByName"
 		resultType="ie.ul.cs4227.Bass.Entity.User"

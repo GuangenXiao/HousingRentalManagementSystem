@@ -345,7 +345,6 @@ public class UserControllor {
     			}
     			
     			ArrayList<User> userlist =null;
-    			IUserService ius= new UserService();
     			
     		  userlist = ius.findUsers(info,type);
 
