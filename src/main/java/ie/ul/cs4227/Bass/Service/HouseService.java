@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ie.ul.cs4227.Bass.Dao.HouseDao;
 import ie.ul.cs4227.Bass.Entity.House;
 import ie.ul.cs4227.Bass.Entity.HouseType;
+import ie.ul.cs4227.Bass.Service.Flyweight.HouseFlyweight;
 
 @Service
 public class HouseService implements IHouseService {
@@ -21,18 +22,9 @@ public class HouseService implements IHouseService {
 	}
 
 	@Override
-	public ArrayList<House> findHouses(String info,Integer Type) {
+	public ArrayList<House> findHouses(String info,Integer type) {
 		// TODO Auto-generated method stub
-		
-
-		 ArrayList<House> list=null;
-		 try {
-			list= hd.findHouses(info, Type);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
+		 ArrayList<House> list=HouseFlyweight.getList(hd, info, type);		 
 		return list;
 	}
 

@@ -8,6 +8,7 @@ import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.VisitorService;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class VisitorControllor {
 	
+	@Resource
 	IVisitorService ivs = new VisitorService();
+	
 	@GetMapping("/VisitorModel")
 	public ModelAndView BuildVisitor(HttpServletRequest request, HttpServletResponse response) {
 		

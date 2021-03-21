@@ -12,15 +12,16 @@ import ie.ul.cs4227.Bass.Entity.Visitor;
 
 @Service
 public class VisitorService implements IVisitorService{
+	
 	@Autowired
 	@Resource
 	VisitorDao Vd;
+	
 	@Override
 	public Integer insertVisitor(Visitor v) {
 		Integer result=null;
 		try {
 			result = Vd.insertVisitor(v);
-			System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
