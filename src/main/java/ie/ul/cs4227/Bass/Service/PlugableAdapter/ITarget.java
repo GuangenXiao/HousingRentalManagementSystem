@@ -5,5 +5,5 @@ import javax.servlet.http.HttpServletRequest;
 import ie.ul.cs4227.Bass.Entity.Visitor;
 
 public interface ITarget {
-    Visitor BulidVisitor(HttpServletRequest request);
+	 abstract Visitor  doWhatClientNeeds(HttpServletRequest request);
 }

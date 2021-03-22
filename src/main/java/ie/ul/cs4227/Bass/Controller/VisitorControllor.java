@@ -6,7 +6,10 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.VisitorService;
+import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adaptee;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adapter;
+import ie.ul.cs4227.Bass.Service.PlugableAdapter.Client;
+import ie.ul.cs4227.Bass.Service.PlugableAdapter.ITarget;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,9 @@ public class VisitorControllor {
 	@Resource
 	IVisitorService ivs = new VisitorService();
 	
+	
+
+	
 	@GetMapping("/VisitorModel")
 	public ModelAndView BuildVisitor(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -29,8 +35,16 @@ public class VisitorControllor {
 		ModelAndView mv = new ModelAndView();
 		
 		Visitor newVisitor=null;
-		Adapter adapter = new Adapter();
-	    newVisitor=adapter.BulidVisitor(request);
+		Adapter adapter = new Adapter(new Adaptee());
+		
+		Client client=new Client() {
+			@Override
+			public Visitor doTheThing(ITarget target) {
+				// TODO Auto-generated method stub
+				return target.doWhatClientNeeds(request);
+			}
+		};
+	    newVisitor=adapter.doOtherThingWithClient(client);
 	    
 	    User VisitorUser=null;
 	    VisitorUser=newVisitor.getvUser();

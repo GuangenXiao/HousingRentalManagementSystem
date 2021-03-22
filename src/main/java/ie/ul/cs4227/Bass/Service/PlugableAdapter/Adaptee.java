@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import ie.ul.cs4227.Bass.Entity.User;
 public class Adaptee {
-	User BuildUser(HttpServletRequest request) {
-		User user=new User();
+	User BuildUser() {
+		User user=new User.Builder().uId(4).uName("Visitor").uType("user").Build();
 		return user;
 	}
 }

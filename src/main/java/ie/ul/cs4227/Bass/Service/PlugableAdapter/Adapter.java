@@ -5,18 +5,28 @@ import javax.servlet.http.HttpServletRequest;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Entity.Visitor;
 
-public class Adapter extends Adaptee implements ITarget {
-	@Override
+public class Adapter  {
+	
+	private  Adaptee adaptee;
+	
+	public Adapter(Adaptee adaptee) {
+		this.adaptee=adaptee;
+	}
+    public Visitor doOtherThingWithClient(Client client)
+    {
+
+	return client.doTheThing(this::BulidVisitor);
+    }
+    
 	public Visitor BulidVisitor(HttpServletRequest request) {
-		User Visitor=new User.Builder().uId(4).uName("Visitor").uType("user").Build();
-		Visitor VisitorAccont=new Visitor();
 		
+		Visitor VisitorAccont=new Visitor();
 		String Ip= clientIp(request);
 		VisitorAccont.setvIP(Ip);
-		VisitorAccont.setvUser(Visitor);
+		VisitorAccont.setvUser(adaptee.BuildUser());
 		return VisitorAccont;
 	}
-	public static String clientIp(HttpServletRequest request) {  
+	public String clientIp(HttpServletRequest request) {  
 	    String ip = request.getHeader("x-forwarded-for");  
 	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
 	        ip = request.getHeader("Proxy-Client-IP");  
@@ -29,4 +39,6 @@ public class Adapter extends Adaptee implements ITarget {
 	    }  
 	    return ip;  
 	}  
+
+
 }
