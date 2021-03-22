@@ -14,14 +14,34 @@ public class Adapter  {
 	}
     public Visitor doOtherThingWithClient(Client client)
     {
-
-	return client.doTheThing(this::BulidVisitor);
+        ITarget adapter = new ITarget() {
+			@Override
+			public Visitor generatVisitorWithRequest(HttpServletRequest request) {
+				// TODO Auto-generated method stub
+				return BulidVisitor(request);
+			}
+			
+			@Override
+			public Visitor generatVisitorWithIP(String ip) {
+				// TODO Auto-generated method stub
+				return  BulidVisitor(ip);
+			}
+		};
+	return  client.doTheThing(adapter);
     }
     
 	public Visitor BulidVisitor(HttpServletRequest request) {
 		
 		Visitor VisitorAccont=new Visitor();
 		String Ip= clientIp(request);
+		VisitorAccont.setvIP(Ip);
+		VisitorAccont.setvUser(adaptee.BuildUser());
+		return VisitorAccont;
+	}
+	public Visitor BulidVisitor(String ip) {
+		
+		Visitor VisitorAccont=new Visitor();
+		String Ip= ip;
 		VisitorAccont.setvIP(Ip);
 		VisitorAccont.setvUser(adaptee.BuildUser());
 		return VisitorAccont;

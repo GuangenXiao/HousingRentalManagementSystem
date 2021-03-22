@@ -41,7 +41,7 @@ public class VisitorControllor {
 			@Override
 			public Visitor doTheThing(ITarget target) {
 				// TODO Auto-generated method stub
-				return target.doWhatClientNeeds(request);
+				return target.generatVisitorWithRequest(request);
 			}
 		};
 	    newVisitor=adapter.doOtherThingWithClient(client);
