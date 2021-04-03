@@ -22,6 +22,8 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Util.*;
 import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.UserService;
+import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
 
 @RestController
@@ -62,7 +64,8 @@ public class UserControllor {
 			return null;
 		}
 		User u = new User.Builder().uId(Integer.parseInt(userId)).uPassword(password).Build();
-		User uResult = ius.UserLogin(u);
+		IUserService loginproxy =(IUserService) InterceptorJdkProxy.bind(ius,new LogInterceptor());
+		User uResult = loginproxy.UserLogin(u);
 		System.out.println(uResult);
 		if (uResult == null) {
 			msg.append("No Suitable User");
