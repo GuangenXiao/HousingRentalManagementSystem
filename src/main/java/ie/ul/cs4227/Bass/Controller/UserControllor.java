@@ -24,6 +24,7 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.ModifyInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.RegisterInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
@@ -155,7 +156,9 @@ public class UserControllor {
 		
 		if(uLocation.length()>0) {Uinfo.setuLocation(uLocation);}
 		
-		Integer n= ius.updateUser(Uinfo);
+		IUserService Modifyproxy =(IUserService) InterceptorJdkProxy.bind(ius,new ModifyInterceptor());
+		
+		Integer n= Modifyproxy.updateUser(Uinfo);
 		
 		if(n>=1) {
 			response.getWriter().write("<script   language=javascript>alert('Modify Successfully');</script>");

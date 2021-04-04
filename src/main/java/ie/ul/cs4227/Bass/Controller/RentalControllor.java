@@ -20,6 +20,8 @@ import ie.ul.cs4227.Bass.Entity.Rental;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.*;
 import ie.ul.cs4227.Bass.Service.Interceptor.AcceptApplicationInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.ApplyBoxInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.ApplyBoxRejectInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SendApplicationInterceptor;
@@ -48,9 +50,10 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
+		IRentService ApplyBoxproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxInterceptor());
 		Integer ID=user.getuId();
 		
-		ArrayList<Rental> rentallist =irs.findReantals(ID); 
+		ArrayList<Rental> rentallist =ApplyBoxproxy.findReantals(ID); 
 		mv.setViewName("ApplyBox");
 		mv.addObject("rentallist",rentallist);
 		return mv;
@@ -65,9 +68,10 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
-		Boolean result=irs.deteleRental(Integer.parseInt(rentalId));
+		IRentService ApplyBoxRejectproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxRejectInterceptor());
+		Boolean result=ApplyBoxRejectproxy.deteleRental(Integer.parseInt(rentalId));
 		Integer ID=user.getuId();
-		ArrayList<Rental> rentallist =irs.findReantals(ID); 
+		ArrayList<Rental> rentallist =ApplyBoxRejectproxy.findReantals(ID); 
 		mv.setViewName("ApplyBox");
 		mv.addObject("rentallist",rentallist);
 		mv.addObject("result",result);

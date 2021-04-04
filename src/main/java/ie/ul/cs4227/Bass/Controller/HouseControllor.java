@@ -24,6 +24,7 @@ import ie.ul.cs4227.Bass.Service.IHouseService;
 import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.ManageHouseInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.NewHouseInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
@@ -132,7 +133,8 @@ public class HouseControllor {
 	        Integer ID=user.getuId();
 	        house.sethOwnerId(ID);
 	        
-			Boolean result=ihs.insertHouse(house);
+	        IHouseService NewHouseproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new NewHouseInterceptor());
+			Boolean result=NewHouseproxy.insertHouse(house);
 			if(result!=null) {
 				msg.append("You have successfully added a new house");
 				mv.addObject("msg", msg.toString());

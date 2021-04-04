@@ -6,19 +6,19 @@ public class AcceptApplicationInterceptor implements iInterceptor {
 
 	@Override
 	public boolean before(Object proxy, Object target, Method method, Object[] args) {
-		System.out.println("ManageApplicationInterceptor before...");
+		System.out.println("AcceptApplicationInterceptor before...");
 		return true;
 	}
 
 	@Override
 	public void around(Object proxy, Object target, Method method, Object[] args) {
-		System.out.println("ManageApplicationInterceptor around...");
+		System.out.println("AcceptApplicationInterceptor around...");
 		
 	}
 
 	@Override
 	public void after(Object proxy, Object target, Method method, Object[] args) {
-		System.out.println("ManageApplicationInterceptor after...");
+		System.out.println("AcceptApplicationInterceptor after...");
 		
 	}
 
