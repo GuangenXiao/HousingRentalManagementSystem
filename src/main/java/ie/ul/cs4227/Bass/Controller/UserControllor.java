@@ -24,6 +24,7 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
 
 @RestController
@@ -350,7 +351,8 @@ public class UserControllor {
     			
     			ArrayList<User> userlist =null;
     			
-    		  userlist = ius.findUsers(info,type);
+    			IUserService userSearchProxy =(IUserService) InterceptorJdkProxy.bind(ius,new SearchUserInterceptor());
+    		  userlist =  userSearchProxy.findUsers(info,type);
 
   			  mv.setViewName("SearchUser");
   			  mv.addObject("userlist", userlist);

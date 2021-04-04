@@ -19,6 +19,9 @@ import ie.ul.cs4227.Bass.Entity.House;
 import ie.ul.cs4227.Bass.Entity.Rental;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.*;
+import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.SendApplicationInterceptor;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
@@ -153,7 +156,8 @@ public class RentalControllor {
 		rent.setrEnd(EndDate);
 		rent.setrPrice( mon);
 
-		Boolean result=irs.insertRent(rent);
+		IRentService rentHouseproxy =  (IRentService) InterceptorJdkProxy.bind(irs,new SendApplicationInterceptor());
+		Boolean result=rentHouseproxy.insertRent(rent);
 		if(result==true) {
 			msg.append("You have successfully send a rent message to owner,please wait for reply");
 			ModelAndView mv1 = RentHouse(request, response,h);

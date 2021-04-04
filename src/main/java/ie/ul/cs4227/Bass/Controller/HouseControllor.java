@@ -21,6 +21,9 @@ import ie.ul.cs4227.Bass.Entity.HouseType;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
+import ie.ul.cs4227.Bass.Service.IUserService;
+import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
@@ -66,7 +69,8 @@ public class HouseControllor {
 			mv.setViewName("searchlist");
 			return mv;
 		}
-		ArrayList<House> list =ihs.findHouses(houseinfo,index);
+		IHouseService findHousesProxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new SearchUserInterceptor());
+		ArrayList<House> list =findHousesProxy.findHouses(houseinfo,index);
 		mv.addObject("houselist", list);
 		mv.setViewName("searchlist");
 		return mv;
@@ -175,6 +179,7 @@ public class HouseControllor {
 		boolean flag = false;
 		
 		try {
+			
 			flag = ihs.deleteHouse(Integer.parseInt(houseID));
 		}catch (Exception e) {
 			// TODO: handle exception
