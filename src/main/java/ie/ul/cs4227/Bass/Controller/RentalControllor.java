@@ -19,6 +19,7 @@ import ie.ul.cs4227.Bass.Entity.House;
 import ie.ul.cs4227.Bass.Entity.Rental;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.*;
+import ie.ul.cs4227.Bass.Service.Interceptor.AcceptApplicationInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SendApplicationInterceptor;
@@ -82,9 +83,10 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
-		Boolean result=irs.dealRental(Integer.parseInt(rentalId));
+		IRentService ApplyAccpetproxy =(IRentService) InterceptorJdkProxy.bind(irs,new AcceptApplicationInterceptor());
+		Boolean result=ApplyAccpetproxy.dealRental(Integer.parseInt(rentalId));
 		Integer ID=user.getuId();
-		ArrayList<Rental> rentallist =irs.findReantals(ID); 
+		ArrayList<Rental> rentallist =ApplyAccpetproxy.findReantals(ID); 
 		mv.setViewName("ApplyBox");
 		mv.addObject("rentallist",rentallist);
 		mv.addObject("result",result);

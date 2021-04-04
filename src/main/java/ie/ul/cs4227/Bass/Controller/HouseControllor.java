@@ -23,6 +23,7 @@ import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
 import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.ManageHouseInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
@@ -152,8 +153,8 @@ public class HouseControllor {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("HouseManage");
 		
-		String houseID=h;
-	    House H= ihs.serachhouseById(houseID);
+		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseInterceptor());
+	    House H= HouseManageproxy.serachhouseById(h);
 		Integer HouseTypecode=H.gethType();
 		String HouseType=null;
 		   if(HouseTypecode==1){
@@ -178,9 +179,10 @@ public class HouseControllor {
 		ModelAndView mv = new ModelAndView();
 		boolean flag = false;
 		
+		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseInterceptor());
 		try {
 			
-			flag = ihs.deleteHouse(Integer.parseInt(houseID));
+			flag = HouseManageproxy.deleteHouse(Integer.parseInt(houseID));
 		}catch (Exception e) {
 			// TODO: handle exception
 		}		
