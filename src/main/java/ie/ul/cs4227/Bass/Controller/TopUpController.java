@@ -16,7 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import ie.ul.cs4227.Bass.Entity.Recharge;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.ITopUpService;
+import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.TopUpService;
+import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
 
 @RestController
@@ -67,7 +70,11 @@ public class TopUpController {
 
 		try {
 			Float amountNum = Float.parseFloat(Amount);
-			result = tus.TopUp(user, amountNum, PaymentType);
+			
+			ITopUpService tusproxy = (ITopUpService) InterceptorJdkProxy.bind(tus,new LogInterceptor());
+			result = tusproxy.TopUp(user, amountNum, PaymentType);
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

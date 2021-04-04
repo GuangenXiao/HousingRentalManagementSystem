@@ -6,6 +6,8 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.VisitorService;
+import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
+import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adaptee;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adapter;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Client;
@@ -52,7 +54,8 @@ public class VisitorControllor {
 	    HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("u", VisitorUser);
 		
-		Integer result=ivs.insertVisitor(newVisitor);
+		IVisitorService ivsproxy =  (IVisitorService) InterceptorJdkProxy.bind(ivs,new LogInterceptor());
+		Integer result=ivsproxy.insertVisitor(newVisitor);
 		if(result!=null) {
 			msg.append("Visitor mode has been turned on for you");
 			mv.addObject("msg", msg.toString());

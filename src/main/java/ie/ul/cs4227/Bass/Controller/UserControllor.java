@@ -24,6 +24,7 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
+import ie.ul.cs4227.Bass.Service.Interceptor.RegisterInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
 
@@ -41,7 +42,6 @@ public class UserControllor {
 			@RequestParam(value="passWord",required = true) String password,
 			@RequestParam(value="autologin",required = false)String time
 			) throws Exception {
-		System.out.println("1111");
 	    ModelAndView mv = new ModelAndView();
 		StringBuffer msg = new StringBuffer();
 		if (userId == null || password == null) {
@@ -67,7 +67,6 @@ public class UserControllor {
 		User u = new User.Builder().uId(Integer.parseInt(userId)).uPassword(password).Build();
 		IUserService loginproxy =(IUserService) InterceptorJdkProxy.bind(ius,new LogInterceptor());
 		User uResult = loginproxy.UserLogin(u);
-		System.out.println(uResult);
 		if (uResult == null) {
 			msg.append("No Suitable User");
 			System.out.println("No Suitable User");
@@ -292,7 +291,8 @@ public class UserControllor {
 						mv.setViewName("Register");
 						return mv;
     				}
-    				User result=ius.registerNewUser(user);
+    				IUserService registerProxy =(IUserService) InterceptorJdkProxy.bind(ius,new RegisterInterceptor());
+    				User result=registerProxy.registerNewUser(user);
     				if(result!=null) {
     					msg.append("You have successfully created an account");
     					response.getWriter().write("<script   language=javascript>alert('Register successfully! Your Id is "+result.getuId()+"');'</script>");
