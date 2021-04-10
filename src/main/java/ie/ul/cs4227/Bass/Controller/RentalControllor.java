@@ -25,6 +25,8 @@ import ie.ul.cs4227.Bass.Service.Interceptor.ApplyBoxRejectInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
 import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Service.Interceptor.SendApplicationInterceptor;
+import ie.ul.cs4227.Bass.Service.OriginalInterceptor.FrameWork;
+import ie.ul.cs4227.Bass.Service.OriginalInterceptor.RentContext;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
@@ -162,6 +164,13 @@ public class RentalControllor {
 		rent.setrEnd(EndDate);
 		rent.setrPrice( mon);
 
+		
+		String realPath = request.getSession().getServletContext().getRealPath("/");
+		FrameWork framework = FrameWork.getInstance();
+		framework.handleRequest(new RentContext(rent,realPath));
+		
+		
+		
 		IRentService rentHouseproxy =  (IRentService) InterceptorJdkProxy.bind(irs,new SendApplicationInterceptor());
 		Boolean result=rentHouseproxy.insertRent(rent);
 		if(result==true) {
