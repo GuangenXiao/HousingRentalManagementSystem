@@ -1,4 +1,4 @@
-package ie.ul.cs4227.Bass.Service.Interceptor;
+package ie.ul.cs4227.Service.Proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -7,14 +7,14 @@ import java.lang.reflect.Proxy;
 public class InterceptorJdkProxy implements InvocationHandler {
  
     private Object target;//真实对象
-    private iInterceptor interceptorClass = null;//拦截器全限定名
+    private iProxy interceptorClass = null;//拦截器全限定名
  
-    public InterceptorJdkProxy(Object target,iInterceptor interceptorClass){
+    public InterceptorJdkProxy(Object target,iProxy interceptorClass){
         this.target = target;
         this.interceptorClass = interceptorClass;
     }
  
-    public static Object bind(Object target,iInterceptor interceptorClass){
+    public static Object bind(Object target,iProxy interceptorClass){
         //取得代理对象
         return Proxy.newProxyInstance(target.getClass().getClassLoader(),
                 target.getClass().getInterfaces(),
@@ -30,7 +30,7 @@ public class InterceptorJdkProxy implements InvocationHandler {
         }
         Object result = null;
         //通过反射生成拦截器
-        iInterceptor interceptor = interceptorClass;
+        iProxy interceptor = interceptorClass;
         //调用前置方法
         if(interceptor.before(proxy,target,method,args)){
             //反射原有对象方法

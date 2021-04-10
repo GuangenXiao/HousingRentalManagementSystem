@@ -22,15 +22,11 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
 import ie.ul.cs4227.Bass.Service.IUserService;
-import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
-import ie.ul.cs4227.Bass.Service.Interceptor.ManageHouseInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.NewHouseInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
 import ie.ul.cs4227.Bass.Util.Tools;
-
+import ie.ul.cs4227.Service.Proxy.*;
 
 @RestController
 public class HouseControllor {
@@ -71,7 +67,7 @@ public class HouseControllor {
 			mv.setViewName("searchlist");
 			return mv;
 		}
-		IHouseService findHousesProxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new SearchUserInterceptor());
+		IHouseService findHousesProxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new SearchUserProxy());
 		ArrayList<House> list =findHousesProxy.findHouses(houseinfo,index);
 		mv.addObject("houselist", list);
 		mv.setViewName("searchlist");
@@ -133,7 +129,7 @@ public class HouseControllor {
 	        Integer ID=user.getuId();
 	        house.sethOwnerId(ID);
 	        
-	        IHouseService NewHouseproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new NewHouseInterceptor());
+	        IHouseService NewHouseproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new NewHouseProxy());
 			Boolean result=NewHouseproxy.insertHouse(house);
 			if(result!=null) {
 				msg.append("You have successfully added a new house");
@@ -155,7 +151,7 @@ public class HouseControllor {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("HouseManage");
 		
-		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseInterceptor());
+		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseProxy());
 	    House H= HouseManageproxy.serachhouseById(h);
 		Integer HouseTypecode=H.gethType();
 		String HouseType=null;
@@ -181,7 +177,7 @@ public class HouseControllor {
 		ModelAndView mv = new ModelAndView();
 		boolean flag = false;
 		
-		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseInterceptor());
+		IHouseService HouseManageproxy =(IHouseService) InterceptorJdkProxy.bind(ihs,new ManageHouseProxy());
 		try {
 			
 			flag = HouseManageproxy.deleteHouse(Integer.parseInt(houseID));

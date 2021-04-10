@@ -19,18 +19,12 @@ import ie.ul.cs4227.Bass.Entity.House;
 import ie.ul.cs4227.Bass.Entity.Rental;
 import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.*;
-import ie.ul.cs4227.Bass.Service.Interceptor.AcceptApplicationInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.ApplyBoxInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.ApplyBoxRejectInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
-import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.SendApplicationInterceptor;
 import ie.ul.cs4227.Bass.Service.OriginalInterceptor.FrameWork;
 import ie.ul.cs4227.Bass.Service.OriginalInterceptor.RentContext;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
-
+import ie.ul.cs4227.Service.Proxy.*;
 
 
 @RestController
@@ -52,7 +46,7 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
-		IRentService ApplyBoxproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxInterceptor());
+		IRentService ApplyBoxproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxProxy());
 		Integer ID=user.getuId();
 		
 		ArrayList<Rental> rentallist =ApplyBoxproxy.findReantals(ID); 
@@ -70,7 +64,7 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
-		IRentService ApplyBoxRejectproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxRejectInterceptor());
+		IRentService ApplyBoxRejectproxy =(IRentService) InterceptorJdkProxy.bind(irs,new ApplyBoxRejectProxy());
 		Boolean result=ApplyBoxRejectproxy.deteleRental(Integer.parseInt(rentalId));
 		Integer ID=user.getuId();
 		ArrayList<Rental> rentallist =ApplyBoxRejectproxy.findReantals(ID); 
@@ -89,7 +83,7 @@ public class RentalControllor {
 			mv.addObject("msg","Please login");
 			return mv;
 		}
-		IRentService ApplyAccpetproxy =(IRentService) InterceptorJdkProxy.bind(irs,new AcceptApplicationInterceptor());
+		IRentService ApplyAccpetproxy =(IRentService) InterceptorJdkProxy.bind(irs,new AcceptApplicationProxy());
 		Boolean result=ApplyAccpetproxy.dealRental(Integer.parseInt(rentalId));
 		Integer ID=user.getuId();
 		ArrayList<Rental> rentallist =ApplyAccpetproxy.findReantals(ID); 
@@ -171,7 +165,7 @@ public class RentalControllor {
 		
 		
 		
-		IRentService rentHouseproxy =  (IRentService) InterceptorJdkProxy.bind(irs,new SendApplicationInterceptor());
+		IRentService rentHouseproxy =  (IRentService) InterceptorJdkProxy.bind(irs,new SendApplicationProxy());
 		Boolean result=rentHouseproxy.insertRent(rent);
 		if(result==true) {
 			msg.append("You have successfully send a rent message to owner,please wait for reply");

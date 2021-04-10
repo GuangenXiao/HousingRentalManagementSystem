@@ -6,8 +6,6 @@ import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.VisitorService;
-import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
-import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adaptee;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adapter;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Client;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import ie.ul.cs4227.Service.Proxy.*;
 @RestController
 public class VisitorControllor {
 	
@@ -54,7 +53,7 @@ public class VisitorControllor {
 	    HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("u", VisitorUser);
 		
-		IVisitorService ivsproxy =  (IVisitorService) InterceptorJdkProxy.bind(ivs,new LogInterceptor());
+		IVisitorService ivsproxy =  (IVisitorService) InterceptorJdkProxy.bind(ivs,new LogProxy());
 		Integer result=ivsproxy.insertVisitor(newVisitor);
 		if(result!=null) {
 			msg.append("Visitor mode has been turned on for you");

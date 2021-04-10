@@ -22,13 +22,8 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Util.*;
 import ie.ul.cs4227.Bass.Service.IUserService;
 import ie.ul.cs4227.Bass.Service.UserService;
-import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
-import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.ModifyInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.RegisterInterceptor;
-import ie.ul.cs4227.Bass.Service.Interceptor.SearchUserInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
-
+import ie.ul.cs4227.Service.Proxy.*;
 @RestController
 public class UserControllor {
 ///LoginServlet
@@ -66,7 +61,7 @@ public class UserControllor {
 			return null;
 		}
 		User u = new User.Builder().uId(Integer.parseInt(userId)).uPassword(password).Build();
-		IUserService loginproxy =(IUserService) InterceptorJdkProxy.bind(ius,new LogInterceptor());
+		IUserService loginproxy =(IUserService) InterceptorJdkProxy.bind(ius,new LogProxy());
 		User uResult = loginproxy.UserLogin(u);
 		if (uResult == null) {
 			msg.append("No Suitable User");
@@ -156,7 +151,7 @@ public class UserControllor {
 		
 		if(uLocation.length()>0) {Uinfo.setuLocation(uLocation);}
 		
-		IUserService Modifyproxy =(IUserService) InterceptorJdkProxy.bind(ius,new ModifyInterceptor());
+		IUserService Modifyproxy =(IUserService) InterceptorJdkProxy.bind(ius,new ModifyProxy());
 		
 		Integer n= Modifyproxy.updateUser(Uinfo);
 		
@@ -294,7 +289,7 @@ public class UserControllor {
 						mv.setViewName("Register");
 						return mv;
     				}
-    				IUserService registerProxy =(IUserService) InterceptorJdkProxy.bind(ius,new RegisterInterceptor());
+    				IUserService registerProxy =(IUserService) InterceptorJdkProxy.bind(ius,new RegisterProxy());
     				User result=registerProxy.registerNewUser(user);
     				if(result!=null) {
     					msg.append("You have successfully created an account");
@@ -354,7 +349,7 @@ public class UserControllor {
     			
     			ArrayList<User> userlist =null;
     			
-    			IUserService userSearchProxy =(IUserService) InterceptorJdkProxy.bind(ius,new SearchUserInterceptor());
+    			IUserService userSearchProxy =(IUserService) InterceptorJdkProxy.bind(ius,new SearchUserProxy());
     		  userlist =  userSearchProxy.findUsers(info,type);
 
   			  mv.setViewName("SearchUser");

@@ -1,9 +1,9 @@
-package ie.ul.cs4227.Bass.Service.Interceptor;
+package ie.ul.cs4227.Service.Proxy;
 
 
 import java.lang.reflect.Method;
 
-public interface iInterceptor {
+public interface iProxy {
  
     boolean before(Object proxy, Object target, Method method,Object[] args);
  

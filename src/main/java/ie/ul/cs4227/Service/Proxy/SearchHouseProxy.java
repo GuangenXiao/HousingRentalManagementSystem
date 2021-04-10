@@ -1,23 +1,23 @@
-package ie.ul.cs4227.Bass.Service.Interceptor;
+package ie.ul.cs4227.Service.Proxy;
 
 import java.lang.reflect.Method;
 
-public class ApplyBoxInterceptor implements iInterceptor{
+public class SearchHouseProxy implements iProxy{
 	
 	@Override
 	public boolean before(Object proxy, Object target, Method method, Object[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("ApplyBoxInterceptor before...");
+		System.out.println("SearchHouseInterceptor before...");
 		return true;
 	}
 	@Override
 	public void around(Object proxy, Object target, Method method, Object[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("ApplyBoxInterceptor around...");
+		System.out.println("SearchHouseInterceptor around...");
 	}
 	@Override
 	public void after(Object proxy, Object target, Method method, Object[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("ApplyBoxInterceptor after...");
+		System.out.println("SearchHouseInterceptor after...");
 	}
 }

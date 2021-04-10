@@ -18,9 +18,8 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.ITopUpService;
 import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.TopUpService;
-import ie.ul.cs4227.Bass.Service.Interceptor.InterceptorJdkProxy;
-import ie.ul.cs4227.Bass.Service.Interceptor.LogInterceptor;
 import ie.ul.cs4227.Bass.Util.Validator;
+import ie.ul.cs4227.Service.Proxy.*;
 
 @RestController
 public class TopUpController {
@@ -71,7 +70,7 @@ public class TopUpController {
 		try {
 			Float amountNum = Float.parseFloat(Amount);
 			
-			ITopUpService tusproxy = (ITopUpService) InterceptorJdkProxy.bind(tus,new LogInterceptor());
+			ITopUpService tusproxy = (ITopUpService) InterceptorJdkProxy.bind(tus,new LogProxy());
 			result = tusproxy.TopUp(user, amountNum, PaymentType);
 			
 			
