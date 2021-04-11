@@ -18,8 +18,8 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.ITopUpService;
 import ie.ul.cs4227.Bass.Service.IVisitorService;
 import ie.ul.cs4227.Bass.Service.TopUpService;
+import ie.ul.cs4227.Bass.Service.Proxy.*;
 import ie.ul.cs4227.Bass.Util.Validator;
-import ie.ul.cs4227.Service.Proxy.*;
 
 @RestController
 public class TopUpController {

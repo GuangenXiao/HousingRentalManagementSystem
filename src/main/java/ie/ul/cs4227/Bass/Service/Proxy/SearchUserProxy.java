@@ -1,4 +1,4 @@
-package ie.ul.cs4227.Service.Proxy;
+package ie.ul.cs4227.Bass.Service.Proxy;
 
 import java.lang.reflect.Method;
 

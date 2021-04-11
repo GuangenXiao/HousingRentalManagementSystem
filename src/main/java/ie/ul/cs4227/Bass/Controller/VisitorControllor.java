@@ -10,6 +10,7 @@ import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adaptee;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Adapter;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.Client;
 import ie.ul.cs4227.Bass.Service.PlugableAdapter.ITarget;
+import ie.ul.cs4227.Bass.Service.Proxy.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import ie.ul.cs4227.Service.Proxy.*;
 @RestController
 public class VisitorControllor {
 	

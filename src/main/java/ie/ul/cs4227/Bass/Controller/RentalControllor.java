@@ -21,10 +21,10 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.*;
 import ie.ul.cs4227.Bass.Service.Interceptor.FrameWork;
 import ie.ul.cs4227.Bass.Service.Interceptor.RentContext;
+import ie.ul.cs4227.Bass.Service.Proxy.*;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
-import ie.ul.cs4227.Service.Proxy.*;
 
 
 @RestController

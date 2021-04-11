@@ -22,11 +22,11 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
 import ie.ul.cs4227.Bass.Service.IUserService;
+import ie.ul.cs4227.Bass.Service.Proxy.*;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
 import ie.ul.cs4227.Bass.Util.Tools;
-import ie.ul.cs4227.Service.Proxy.*;
 
 @RestController
 public class HouseControllor {
