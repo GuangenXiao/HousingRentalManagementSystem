@@ -8,4 +8,9 @@ Group Member:
 
 
 
-#Install:
+# Install:
+Eclipse IDE -> File -> import -> Git -> project with git(smart project) 
+
+URL
+
+
