@@ -9,7 +9,8 @@ Group Member:
 
 Environment:
 
-Mysql:
+Mysql: https://cdn.mysql.com//Downloads/MySQLInstaller/mysql-installer-community-8.0.22.0.msi
+
 
 Java Development Kit:  Upto JDK 14.0
 
@@ -19,7 +20,13 @@ Maven: https://docs.wso2.com/display/IS323/Installing+Apache+Maven+on+Windows
 
 
 
+
 # Install:
+Database Script:
+
+
+
+Main project:
 Eclipse IDE -> File -> import -> Git -> project with git(smart project) 
 
 URL :https://github.com/GuangenXiao/HousingRentalManagementSystem.git
