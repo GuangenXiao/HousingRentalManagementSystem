@@ -22,11 +22,12 @@ Maven: https://docs.wso2.com/display/IS323/Installing+Apache+Maven+on+Windows
 
 
 # Install:
-SQL Script: https://github.com/GuangenXiao/HousingRentalManagementSystem/blob/master/new_script.sql
+## SQL Script:  
+https://github.com/GuangenXiao/HousingRentalManagementSystem/blob/master/new_script.sql
 
 
 
-Main project:
+## Main project:
 Eclipse IDE -> File -> import -> Git -> project with git(smart project) 
 
 URL :https://github.com/GuangenXiao/HousingRentalManagementSystem.git
