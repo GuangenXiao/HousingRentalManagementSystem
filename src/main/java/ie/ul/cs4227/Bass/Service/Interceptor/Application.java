@@ -1,11 +1,10 @@
- package ie.ul.cs4227.Bass.Service.OriginalInterceptor;
+ package ie.ul.cs4227.Bass.Service.Interceptor;
 
 import java.util.ArrayList;
 
 public class Application {
 
 	public static  FrameWork  createFrameWork(){
-
 	        FrameWork framework = new FrameWork();
 	        ArrayList<Dispatcher> list = new ArrayList<Dispatcher>();    
 	        Dispatcher rentDispatcher = new Dispatcher();
@@ -14,6 +13,5 @@ public class Application {
 	        list.add(rentDispatcher);
 	        framework.setDispatchers( list );
 	        return framework;
-
 	}
 }

@@ -1,4 +1,4 @@
-package ie.ul.cs4227.Bass.Service.OriginalInterceptor;
+package ie.ul.cs4227.Bass.Service.Interceptor;
 
 import java.io.File;
 import java.io.FileOutputStream;
