@@ -7,7 +7,7 @@ Group Member:
 19107692 Zijian Li
 
 
-Environment:
+# Environment:
 
 Mysql: https://cdn.mysql.com//Downloads/MySQLInstaller/mysql-installer-community-8.0.22.0.msi
 
@@ -22,7 +22,7 @@ Maven: https://docs.wso2.com/display/IS323/Installing+Apache+Maven+on+Windows
 
 
 # Install:
-Database Script:
+SQL Script: https://github.com/GuangenXiao/HousingRentalManagementSystem/blob/master/new_script.sql
 
 
 
