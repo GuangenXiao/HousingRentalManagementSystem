@@ -25,6 +25,7 @@ import ie.ul.cs4227.Bass.Service.Proxy.*;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
+import ie.ul.cs4227.Bass.Util.Validator;
 
 
 @RestController
@@ -119,23 +120,20 @@ public class RentalControllor {
 	}
 	@PostMapping("/HouseRent")
 	public ModelAndView RentBuild(HttpServletRequest request, HttpServletResponse response,
-		@RequestParam(value="StartDate",required = true) String start,
-		@RequestParam(value="EndDate",required = true) String end,
-		@RequestParam(value="money",required = true) String money,
-		@RequestParam(value="houseId",required = true) String h) throws Exception {
+		@RequestParam(value="StartDate") String start,
+		@RequestParam(value="EndDate") String end,
+		@RequestParam(value="money") String money,
+		@RequestParam(value="houseId") String h) throws Exception {
 		User user = (User)request.getSession().getAttribute("u");
 		Integer hID=Integer.parseInt(h);
-		ModelAndView mv = new ModelAndView();
 	    Integer ID=user.getuId();
         Date StartDate=null;
 	    Date EndDate=null;
 	    
 	    AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
-	    Converter dateCon = ConverterFactory.getConverter("DATE");
-		StartDate = dateCon.convertString(start);
-		EndDate = dateCon.convertString(end);
-		
-		Integer mon=Integer.parseInt(money);
+	    AbstractFactory VaildatorFactory = FactoryProducer.getFactory("Validator");
+		Converter dateCon = ConverterFactory.getConverter("DATE");
+	    Validator nullValidator = VaildatorFactory.getValidator("isNull");
 		StringBuffer msg = new StringBuffer();
 		if(ID==null) {
 			msg.append("You must log in before you rent a house");
@@ -144,13 +142,47 @@ public class RentalControllor {
 			mv1.setViewName("HouseRent");
 			return mv1;
 		}
-		if(StartDate==null||EndDate==null||money==null) {
+		if(nullValidator.verifi(start)||nullValidator.verifi(end)) {
 			msg.append("The required information is incomplete!");
+			ModelAndView mv2 = RentHouse(request, response,h);
+			mv2.addObject("msg", msg.toString());
+			mv2.setViewName("HouseRent");
+			return mv2;
+		}
+        if(nullValidator.verifi(money)) {
+        	msg.append("You must enter an amount for the homeowner's reference");
+			ModelAndView mv3 = RentHouse(request, response,h);
+			mv3.addObject("msg", msg.toString());
+			mv3.setViewName("HouseRent");
+			return mv3;
+        }
+		StartDate = dateCon.convertString(start);
+		EndDate = dateCon.convertString(end);
+		Integer mon=Integer.parseInt(money);
+		
+		if(EndDate.compareTo(StartDate)<=0) {
+			msg.append("The end date needs to be after the start date!");
 			ModelAndView mv1 = RentHouse(request, response,h);
 			mv1.addObject("msg", msg.toString());
 			mv1.setViewName("HouseRent");
 			return mv1;
 		}
+		Date nowTime=new Date(System.currentTimeMillis());
+		if(StartDate.compareTo(nowTime)<=0) {
+			msg.append("The start date needs to be after current time!");
+			ModelAndView mv1 = RentHouse(request, response,h);
+			mv1.addObject("msg", msg.toString());
+			mv1.setViewName("HouseRent");
+			return mv1;
+		}
+		if(EndDate.compareTo(nowTime)<=0) {
+			msg.append("The end date needs to be after current time!");
+			ModelAndView mv1 = RentHouse(request, response,h);
+			mv1.addObject("msg", msg.toString());
+			mv1.setViewName("HouseRent");
+			return mv1;
+		}
+		
 		Rental rent=new Rental();
 		rent.setrUId(ID);
 		rent.setrHId(hID);
@@ -174,7 +206,7 @@ public class RentalControllor {
 			mv1.setViewName("HouseRent");
 			return mv1;
 		}else {
-			msg.append("Error!");
+			msg.append("Can't make a rental,please try again");
 			ModelAndView mv1 = RentHouse(request, response,h);
 			mv1.addObject("msg", msg.toString());
 			mv1.setViewName("HouseRent");

@@ -224,29 +224,63 @@ public class UserControllor {
     				user.setuPassword(userPassword);					
     				user.setuLocation(userLocation);					
     				user.setuDescription(userDescription);
+    				user.setuEmail(userEmail);	
+    				user.setuType(userType);
     				
     				AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+    				AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
+    			    Converter dateCon = ConverterFactory.getConverter("DATE");
+    				
+    				
+    				if(user.getuName()==null||user.getuPhoneNumber()==null||user.getuBirthday()==null||user.getuEmail()==null||user.getuPassword()==null||user.getuDescription()==null||user.getuLocation()==null) {
+    					msg.append("The required information is incomplete!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				Date userBirth=dateCon.convertString(userBirthday);
+    				user.setuBirthday(userBirth);
+    				if(user.getuName().length()<8||user.getuName().length()>16) {
+    					msg.append("User name with illegal length!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				AbstractFactory validatorFactory = FactoryProducer.getFactory("Validator");
+    				Validator NumberV = validatorFactory. getValidator("isNumber");
+    				if(!NumberV.verifi(user.getuPhoneNumber())) {
+    					msg.append("phoneNumber must be a number!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				if(!user.getuEmail().matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*"))
+    				{
+    					msg.append("Illegal email format!");
+    					mv.addObject("msg", msg.toString());
+						mv.setViewName("Register");
+						return mv;
+    				}
+    				if(file==null) {user.setuIcon("index1.jpg");}
+    				else {
+    				
     			    Tools filetool= ToolFactory.getTools("FileUpLoad");
     				String fileName = file.getOriginalFilename();
     		        String filePath = request.getSession().getServletContext().getRealPath("/Recource/");
     		        try {
     		        	    filetool.uploadfile(file.getBytes(), filePath, fileName);
     		        } catch (Exception e) {
-    		        } 
-    				user.setuIcon(fileName);
-    				AbstractFactory validatorFactory = FactoryProducer.getFactory("Validator");
+    		        }
+    		           user.setuIcon(fileName);
+    				}
+    				
     			    Validator GenderV = validatorFactory. getValidator("getGender");
     				Boolean GenderResult=GenderV.verifi(Gender);
     				user.setuGender(GenderResult);				
     				
-    				user.setuEmail(userEmail);	
+    				
     				/* This method can be a new tool to the abstract factory*/
-       				user.setuType(userType);
-       				
-       				AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
-    			    Converter dateCon = ConverterFactory.getConverter("DATE");
-    				Date userBirth=dateCon.convertString(userBirthday);
-    				user.setuBirthday(userBirth);
+       			
     				
     				Integer age =0;
     				 try { 					  
@@ -263,32 +297,6 @@ public class UserControllor {
     			        } catch (Exception e) {
     			            e.printStackTrace();
     			        }
-    				if(user.getuName()==null||user.getuPhoneNumber()==null||user.getuBirthday()==null||user.getuEmail()==null||user.getuPassword()==null||user.getuDescription()==null||user.getuLocation()==null||user.getuAge()==null) {
-    					msg.append("The required information is incomplete!");
-    					mv.addObject("msg", msg.toString());
-						mv.setViewName("Register");
-						return mv;
-    				}
-    				if(user.getuName().length()<8||user.getuName().length()>16) {
-    					msg.append("User name with illegal length!");
-    					mv.addObject("msg", msg.toString());
-						mv.setViewName("Register");
-						return mv;
-    				}
-    				Validator NumberV = validatorFactory. getValidator("isNumber");
-    				if(!NumberV.verifi(user.getuPhoneNumber())) {
-    					msg.append("phoneNumber must be a number!");
-    					mv.addObject("msg", msg.toString());
-						mv.setViewName("Register");
-						return mv;
-    				}
-    				if(!user.getuEmail().matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*"))
-    				{
-    					msg.append("Illegal email format!");
-    					mv.addObject("msg", msg.toString());
-						mv.setViewName("Register");
-						return mv;
-    				}
     				IUserService registerProxy =(IUserService) InterceptorJdkProxy.bind(ius,new RegisterProxy());
     				User result=registerProxy.registerNewUser(user);
     				if(result!=null) {

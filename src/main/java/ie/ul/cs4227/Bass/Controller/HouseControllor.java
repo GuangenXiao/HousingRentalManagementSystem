@@ -3,6 +3,7 @@ package ie.ul.cs4227.Bass.Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +23,13 @@ import ie.ul.cs4227.Bass.Entity.User;
 import ie.ul.cs4227.Bass.Service.HouseService;
 import ie.ul.cs4227.Bass.Service.IHouseService;
 import ie.ul.cs4227.Bass.Service.IUserService;
+import ie.ul.cs4227.Bass.Service.UserService;
 import ie.ul.cs4227.Bass.Service.Proxy.*;
 import ie.ul.cs4227.Bass.Util.AbstractFactory;
 import ie.ul.cs4227.Bass.Util.Converter;
 import ie.ul.cs4227.Bass.Util.FactoryProducer;
 import ie.ul.cs4227.Bass.Util.Tools;
+import ie.ul.cs4227.Bass.Util.Validator;
 
 @RestController
 public class HouseControllor {
@@ -34,6 +37,8 @@ public class HouseControllor {
 ///SearchHouseServlet
 	@Resource
 	IHouseService ihs = new HouseService();
+	@Resource
+	IUserService ius = new UserService();
 	
 	@GetMapping("/SearchHouse")
 	public ModelAndView searchHousePage(HttpServletRequest request, 
@@ -98,32 +103,63 @@ public class HouseControllor {
 			@RequestParam(value="Housesize",required = false) String Housesize,
 			@RequestParam(value="Picture of house",required = false) MultipartFile file) throws Exception {
 		    
+		    AbstractFactory VaildatorFactory = FactoryProducer.getFactory("Validator");
+		    Validator nullValidator = VaildatorFactory.getValidator("isNull");
 		    ModelAndView mv = new ModelAndView();
 			StringBuffer msg = new StringBuffer();
 		    House house = new House();
 		    //set features
-		    house.sethType(Integer.parseInt(HouseType));
-			house.sethEnergy(HouseEnergy);
-			house.sethAddress(HouseAddress);
-		    house.sethPark(Integer.parseInt(HouseParknumber));
-		    house.sethDescription(houseDescription);
-			house.sethEquipment(houseEquipment);
-			house.sethSize(Integer.parseInt(Housesize));
 			
-			AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
-		    Tools filetool= ToolFactory.getTools("FileUpLoad");
-			String fileName = file.getOriginalFilename();
-	        String filePath = request.getSession().getServletContext().getRealPath("/Recource/");
-	        try {
-	        	    filetool.uploadfile(file.getBytes(), filePath, fileName);
-	        } catch (Exception e) {
-	        } 
-			house.sethPicture(fileName);
-			
+			if(HouseType==null||HouseEnergy==null||HouseAddress==null||HouseParknumber==null||HouseBirthday==null||houseEquipment==null||houseDescription==null||Housesize==null||file==null) {
+				msg.append("The required information is incomplete!");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
+			if(nullValidator.verifi(HouseBirthday)) {
+				msg.append("The required information is incomplete!");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
+			    house.sethType(Integer.parseInt(HouseType));
+				house.sethEnergy(HouseEnergy);
+				house.sethAddress(HouseAddress);
+			    house.sethDescription(houseDescription);
+				house.sethEquipment(houseEquipment);
+				house.sethSize(Integer.parseInt(Housesize));
+				house.sethPark(Integer.parseInt(HouseParknumber));
 			AbstractFactory ConverterFactory = FactoryProducer.getFactory("Converter");
 		    Converter dateCon = ConverterFactory.getConverter("DATE");
+		    
 			Date HouseBirth=dateCon.convertString(HouseBirthday);
 			house.sethDate(HouseBirth);
+			Date nowTime=new Date(System.currentTimeMillis());
+			if(HouseBirth.compareTo(nowTime)>=0) {
+				msg.append("The HouseBirth needs to be after current time!");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
+			HttpSession httpSession = request.getSession();
+			User currentUser= (User) httpSession.getAttribute("u");
+			Integer uID=currentUser.getuId();
+			if(currentUser.getuMoney()<20)
+			{
+				msg.append("You dont have enough money to post a new house");
+				mv.addObject("msg", msg.toString());
+				mv.setViewName("NewHouse");
+				return mv;
+			}
+			AbstractFactory ToolFactory = FactoryProducer.getFactory("Tools");
+		    Tools filetool= ToolFactory.getTools("FileUpLoad");
+		    String uuid = UUID.randomUUID().toString().replaceAll("-","");
+	        String filePath = request.getSession().getServletContext().getRealPath("/Recource/");
+	        try {
+	        	    filetool.uploadfile(file.getBytes(), filePath, uuid+".jpg");
+	        } catch (Exception e) {
+	        } 
+			house.sethPicture(uuid+".jpg");
 			
 			User user = (User)request.getSession().getAttribute("u");
 	        Integer ID=user.getuId();
@@ -135,6 +171,8 @@ public class HouseControllor {
 				msg.append("You have successfully added a new house");
 				mv.addObject("msg", msg.toString());
 				mv.setViewName("NewHouse");
+				IUserService registerProxy =(IUserService) InterceptorJdkProxy.bind(ius,new RegisterProxy());
+		        registerProxy.updateUser(new User.Builder().uId(uID).uMoney((currentUser.getuMoney()-20)).Build());
 				return mv;
 			}
 			else

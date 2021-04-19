@@ -48,8 +48,8 @@
 <tbody>
       <tr  th:each="hl:${houselist}"  th:if="${ houselist!=null && #lists.size(houselist)>= 0}">
 
-      <th scope="row" th:if="${session.u!=null} and ${session.u.uType=='admin'}"><a th:href="'/HouseManage?houseId='+${hl.hId}"><img th:src="'Resource/'+${hl.hPicture}" th:alt="${hl.hPicture}"  width="80" height="50" ></a></th>
-      <th scope="row" th:if="${session.u==null} or ${session.u.uType!='admin'}"><a th:href="'/HouseRent?houseId='+${hl.hId}"><img th:src="'Resource/'+${hl.hPicture}" th:alt="${hl.hPicture}"  width="80" height="50" ></a></th>
+      <th scope="row" th:if="${session.u!=null} and ${session.u.uType=='admin'}"><a th:href="'/HouseManage?houseId='+${hl.hId}"><img th:src="@{'Recource/'+${hl.hPicture}}" th:alt="${hl.hPicture}"  width="80" height="50" ></a></th>
+      <th scope="row" th:if="${session.u==null} or ${session.u.uType!='admin'}"><a th:href="'/HouseRent?houseId='+${hl.hId}"><img th:src="@{'Recource/'+${hl.hPicture}}" th:alt="${hl.hPicture}"  width="80" height="50" ></a></th>
 
       <td th:text="${hl.hAddress}"></td>
       <td th:text="${hl.hEquipment}"></td>

@@ -19,7 +19,7 @@
   <div class="card-body">
     <h5 class="card-title">House image</h5>
   </div>
-  <img th:src="'Recource/'+${house.hPicture}" width="300" height="700"/>
+  <img th:src="'Recource/'+${house.hPicture}" width="700" height="400"/>
   <ul class="list-group list-group-flush">
     <li class="list-group-item"><font color="red" size="4">House Address</font></li>
     <li class="list-group-item" th:text="${house.hAddress}" th:if="${house.hAddress} != null"></li>
