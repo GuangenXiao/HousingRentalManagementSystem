@@ -26,7 +26,12 @@ public class VisitorControllor {
 	@Resource
 	IVisitorService ivs = new VisitorService();
 	
-	
+	@GetMapping("/index")
+	public  ModelAndView  indexPage(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv= new ModelAndView();
+		mv.setViewName("index");
+		return mv;
+	}
 
 	
 	@GetMapping("/VisitorModel")
