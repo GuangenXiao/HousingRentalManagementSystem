@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
+<script src="./JS/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="CSS/style.default.css" />
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="JS/d3.js"></script>
 
 <title>Nav</title>
@@ -11,6 +13,7 @@
 <body>
 <footer th:fragment="bar">
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+
     <a style="margin-left: 20px;" class="navbar-brand" href="/index">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -18,38 +21,38 @@
 
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item" id="home">
           <a class="nav-link" href="/index">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
         
 
-        <li class="nav-item"  th:if="${session.u!= null&&session.u.uType== 'owner'}" >
+        <li class="nav-item"  id="new_house" th:if="${session.u!= null&&session.u.uType== 'owner'}" >
           <a class="nav-link" href="/NewHouse">New House</a>
         </li>
-        <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'owner'}">
+        <li class="nav-item"  id="apply_box" th:if="${session.u!= null&&session.u.uType== 'owner'}">
           <a class="nav-link" href="/ApplyBox">Apply Box</a>
         </li>
-        <li class="nav-item" th:if="${session.u!= null}">
+        <li class="nav-item"  id="office" th:if="${session.u!= null}">
           <a class="nav-link" href="/view">Office</a>
         </li>
         
-        <li class="nav-item">
+        <li class="nav-item" id="house">
           <a class="nav-link" href="/SearchHouse">House</a>
         </li>
 
-        <li class="nav-item" th:if="${session.u!= null&&session.u.uType== 'admin'}">
+        <li class="nav-item"  id="users" th:if="${session.u!= null&&session.u.uType== 'admin'}">
           <a class="nav-link" href="/SearchUser">Users</a>
         </li>
-         <li class="nav-item" th:if="${session.u!= null}">
+         <li class="nav-item" id="topup" th:if="${session.u!= null}">
           <a class="nav-link" href="/TopUp">TopUp</a>
         </li>
-        <li class="nav-item" th:if="${session.u== null}">
+        <li class="nav-item" id ="login" th:if="${session.u== null}">
           <a class="nav-link" href="/Login">Login</a>
         </li>
 
-        <li class="nav-item" th:if="${session.u!= null}">
+        <li class="nav-item" id="logout" th:if="${session.u!= null}">
           <a class="nav-link" href="/Logout">Logout</a>
         </li>
       </ul>
