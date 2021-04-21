@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ie.ul.cs4227.Bass.Dao.UserDao;
 import ie.ul.cs4227.Bass.Entity.User;
+import ie.ul.cs4227.Bass.Util.CloneFactory;
 
 @Service
 public class UserService implements IUserService {
@@ -72,11 +73,10 @@ public class UserService implements IUserService {
 
 	@Override
 	public Integer insertUser(User u) {
-
+		User realUser=(User)CloneFactory.DeepClone(u);
 		Integer r = null;
 		try {
-			r = ud.insertUser(u);
-			System.out.println(r);
+			r = ud.insertUser(realUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
